@@ -1,9 +1,7 @@
 <?php
-namespace App\Model\Carousel\Entities;
+namespace Dravencms\Model\Carousel\Entities;
 
 use App\Model\File\Entities\StructureFile;
-use App\Model\Tag\Entities\Tag;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;

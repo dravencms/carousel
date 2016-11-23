@@ -19,10 +19,10 @@
  * MA 02110-1301  USA
  */
 
-namespace Dravencms\AdminModule\Components\Carousel;
+namespace Dravencms\AdminModule\Components\Carousel\CarouselGrid;
 
 use Dravencms\Components\BaseGridFactory;
-use App\Model\Carousel\Repository\CarouselRepository;
+use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use App\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;

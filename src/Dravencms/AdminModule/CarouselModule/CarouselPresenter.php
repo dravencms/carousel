@@ -6,15 +6,15 @@
  */
 namespace Dravencms\AdminModule\CarouselModule;
 
-use Dravencms\AdminModule\Components\Carousel\CarouselFormFactory;
-use Dravencms\AdminModule\Components\Carousel\CarouselGridFactory;
-use Dravencms\AdminModule\Components\Carousel\ItemFormFactory;
-use Dravencms\AdminModule\Components\Carousel\ItemGridFactory;
+use Dravencms\AdminModule\Components\Carousel\CarouselForm\CarouselFormFactory;
+use Dravencms\AdminModule\Components\Carousel\CarouselGrid\CarouselGridFactory;
+use Dravencms\AdminModule\Components\Carousel\ItemForm\ItemFormFactory;
+use Dravencms\AdminModule\Components\Carousel\ItemGrid\ItemGridFactory;
 use Dravencms\AdminModule\SecuredPresenter;
-use App\Model\Carousel\Entities\Carousel;
-use App\Model\Carousel\Entities\Item;
-use App\Model\Carousel\Repository\CarouselRepository;
-use App\Model\Carousel\Repository\ItemRepository;
+use Dravencms\Model\Carousel\Entities\Carousel;
+use Dravencms\Model\Carousel\Entities\Item;
+use Dravencms\Model\Carousel\Repository\CarouselRepository;
+use Dravencms\Model\Carousel\Repository\ItemRepository;
 
 /**
  * Description of GalleryPresenter
@@ -47,11 +47,17 @@ class CarouselPresenter extends SecuredPresenter
     /** @var null|Item */
     private $item = null;
 
+    /**
+     * @isAllowed(carousel,edit)
+     */
     public function renderDefault()
     {
         $this->template->h1 = 'Carousels';
     }
 
+    /**
+     * @isAllowed(carousel,edit)
+     */
     public function actionEdit($id)
     {
         if ($id) {
@@ -68,6 +74,7 @@ class CarouselPresenter extends SecuredPresenter
     }
 
     /**
+     * @isAllowed(carousel,edit)
      * @param $id
      */
     public function actionItems($id)
@@ -79,6 +86,7 @@ class CarouselPresenter extends SecuredPresenter
 
     /**
      * @param $carouselId
+     * @isAllowed(carousel,edit)
      * @param null $itemId
      * @throws \Nette\Application\BadRequestException
      */
@@ -102,7 +110,7 @@ class CarouselPresenter extends SecuredPresenter
     }
 
     /**
-     * @return \AdminModule\Components\Carousel\CarouselForm
+     * @return \Dravencms\AdminModule\Components\Carousel\CarouselForm\CarouselForm
      */
     public function createComponentFormCarousel()
     {
@@ -116,7 +124,7 @@ class CarouselPresenter extends SecuredPresenter
     }
 
     /**
-     * @return \AdminModule\Components\Carousel\ItemForm
+     * @return \Dravencms\AdminModule\Components\Carousel\ItemForm\ItemForm
      */
     public function createComponentFormItem()
     {
@@ -130,7 +138,7 @@ class CarouselPresenter extends SecuredPresenter
     }
 
     /**
-     * @return \AdminModule\Components\Carousel\CarouselGrid
+     * @return \Dravencms\AdminModule\Components\Carousel\CarouselGrid\CarouselGrid
      */
     public function createComponentGridCarousel()
     {
@@ -144,7 +152,7 @@ class CarouselPresenter extends SecuredPresenter
     }
 
     /**
-     * @return \AdminModule\Components\Carousel\ItemGrid
+     * @return \Dravencms\AdminModule\Components\Carousel\ItemGrid\ItemGrid
      */
     public function createComponentGridItem()
     {

@@ -3,10 +3,10 @@
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  */
 
-namespace App\Model\Carousel\Repository;
+namespace Dravencms\Model\Carousel\Repository;
 
-use App\Model\Carousel\Entities\Carousel;
-use App\Model\Carousel\Entities\Item;
+use Dravencms\Model\Carousel\Entities\Carousel;
+use Dravencms\Model\Carousel\Entities\Item;
 use Gedmo\Translatable\TranslatableListener;
 use Kdyby\Doctrine\EntityManager;
 use Nette;

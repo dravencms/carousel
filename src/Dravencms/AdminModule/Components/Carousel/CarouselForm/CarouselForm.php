@@ -18,11 +18,11 @@
  * MA 02110-1301  USA
  */
 
-namespace Dravencms\AdminModule\Components\Carousel;
+namespace Dravencms\AdminModule\Components\Carousel\CarouselForm;
 
 use Dravencms\Components\BaseFormFactory;
-use App\Model\Carousel\Entities\Carousel;
-use App\Model\Carousel\Repository\CarouselRepository;
+use Dravencms\Model\Carousel\Entities\Carousel;
+use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;

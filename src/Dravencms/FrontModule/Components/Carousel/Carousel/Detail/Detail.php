@@ -1,9 +1,9 @@
 <?php
 
-namespace Dravencms\FrontModule\Components\Carousel\Carousel;
+namespace Dravencms\FrontModule\Components\Carousel\Carousel\Detail;
 
 use Dravencms\Components\BaseControl;
-use App\Model\Carousel\Repository\CarouselRepository;
+use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Salamek\Cms\ICmsActionOption;
 
 /**

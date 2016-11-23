@@ -17,11 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-namespace Dravencms\AdminModule\Components\Carousel;
+namespace Dravencms\AdminModule\Components\Carousel\ItemForm;
 
 
-use App\Model\Carousel\Entities\Carousel;
-use App\Model\Carousel\Entities\Item;
+use Dravencms\Model\Carousel\Entities\Carousel;
+use Dravencms\Model\Carousel\Entities\Item;
 
 interface ItemFormFactory
 {

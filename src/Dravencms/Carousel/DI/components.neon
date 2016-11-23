@@ -1,0 +1,4 @@
+- Dravencms\AdminModule\Components\Carousel\CarouselForm\CarouselFormFactory
+- Dravencms\AdminModule\Components\Carousel\CarouselGrid\CarouselGridFactory
+- Dravencms\AdminModule\Components\Carousel\ItemForm\ItemFormFactory
+- Dravencms\AdminModule\Components\Carousel\ItemGrid\ItemGridFactory
