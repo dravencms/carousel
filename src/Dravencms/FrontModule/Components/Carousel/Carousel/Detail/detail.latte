@@ -1,0 +1,12 @@
+<div id="$carousel->getName()|webalize" class="slider flexslider">
+    <ul class="slides">
+        <li n:foreach="$carousel->getItems() as $image">
+            <img n:img="$image->getStructureFile()->getFile(), '1140x350', 'exact'"  alt="{$carousel->name}" />
+            <p class="flex-caption">
+                <span class="main" n:if="$image->name">{$image->name}</span>
+                <br />
+                <span class="secondary clearfix" n:if="$image->description">{$image->description}</span>
+            </p>
+        </li>
+    </ul><!--//slides-->
+</div><!--//flexslider-->

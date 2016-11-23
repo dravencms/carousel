@@ -1,0 +1,2 @@
+- Dravencms\Carousel\Console\InstallCommand
+- Dravencms\Carousel\Console\UninstallCommand
