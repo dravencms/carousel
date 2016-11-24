@@ -20,7 +20,8 @@
 
 namespace Dravencms\AdminModule\Components\Carousel\ItemForm;
 
-use Dravencms\Components\BaseFormFactory;
+use Dravencms\Components\BaseControl\BaseControl;
+use Dravencms\Components\BaseForm\BaseFormFactory;
 use Dravencms\File\File;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
@@ -28,7 +29,6 @@ use Dravencms\Model\File\Repository\StructureFileRepository;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
-use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 
 /**
@@ -36,7 +36,7 @@ use Nette\Application\UI\Form;
  *
  * @author Adam Schubert <adam.schubert@sg1-game.net>
  */
-class ItemForm extends Control
+class ItemForm extends BaseControl
 {
     /** @var BaseFormFactory */
     private $baseFormFactory;

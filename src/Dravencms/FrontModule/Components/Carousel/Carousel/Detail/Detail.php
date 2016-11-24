@@ -2,7 +2,7 @@
 
 namespace Dravencms\FrontModule\Components\Carousel\Carousel\Detail;
 
-use Dravencms\Components\BaseControl;
+use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Salamek\Cms\ICmsActionOption;
 

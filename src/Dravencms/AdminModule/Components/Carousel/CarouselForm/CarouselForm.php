@@ -20,11 +20,11 @@
 
 namespace Dravencms\AdminModule\Components\Carousel\CarouselForm;
 
-use Dravencms\Components\BaseFormFactory;
+use Dravencms\Components\BaseControl\BaseControl;
+use Dravencms\Components\BaseForm\BaseFormFactory;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Kdyby\Doctrine\EntityManager;
-use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 
 /**
@@ -32,7 +32,7 @@ use Nette\Application\UI\Form;
  *
  * @author Adam Schubert <adam.schubert@sg1-game.net>
  */
-class CarouselForm extends Control
+class CarouselForm extends BaseControl
 {
     /** @var BaseFormFactory */
     private $baseFormFactory;

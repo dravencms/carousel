@@ -21,13 +21,13 @@
 
 namespace Dravencms\AdminModule\Components\Carousel\ItemGrid;
 
-use Dravencms\Components\BaseGridFactory;
+use Dravencms\Components\BaseControl\BaseControl;
+use Dravencms\Components\BaseGrid\BaseGridFactory;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
-use Nette\Application\UI\Control;
 use Nette\Utils\Html;
 use Salamek\Files\ImagePipe;
 
@@ -36,7 +36,7 @@ use Salamek\Files\ImagePipe;
  *
  * @author Adam Schubert <adam.schubert@sg1-game.net>
  */
-class ItemGrid extends Control
+class ItemGrid extends BaseControl
 {
     /** @var BaseGridFactory */
     private $baseGridFactory;
