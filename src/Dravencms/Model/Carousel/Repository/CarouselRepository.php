@@ -5,7 +5,7 @@
 
 namespace Dravencms\Model\Carousel\Repository;
 
-use App\Model\BaseRepository;
+use Dravencms\Locale\TLocalizedRepository;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
@@ -18,8 +18,10 @@ use Salamek\Cms\Models\ILocale;
  * Class CarouselRepository
  * @package App\Model\Carousel\Repository
  */
-class CarouselRepository extends BaseRepository implements ICmsComponentRepository
+class CarouselRepository implements ICmsComponentRepository
 {
+    use TLocalizedRepository;
+
     /** @var \Kdyby\Doctrine\EntityRepository */
     private $carouselRepository;
 
