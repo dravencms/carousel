@@ -17,7 +17,8 @@
   "require": {
   },
   "require-dev": {
-    "nette/tester": "@dev"
+    "nette/tester": "@dev",
+    "dravencms/file": "@dev"
   },
   "autoload": {
     "psr-0": {
