@@ -23,7 +23,7 @@ namespace Dravencms\AdminModule\Components\Carousel\CarouselGrid;
 
 use Dravencms\Components\BaseGridFactory;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
-use App\Model\Locale\Repository\LocaleRepository;
+use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 

@@ -21,11 +21,12 @@
 namespace Dravencms\AdminModule\Components\Carousel\ItemForm;
 
 use Dravencms\Components\BaseFormFactory;
+use Dravencms\File\File;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
-use App\Model\File\Repository\StructureFileRepository;
+use Dravencms\Model\File\Repository\StructureFileRepository;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
-use App\Model\Locale\Repository\LocaleRepository;
+use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
@@ -55,6 +56,9 @@ class ItemForm extends Control
     /** @var Carousel */
     private $carousel;
 
+    /** @var File */
+    private $file;
+
     /** @var Item|null */
     private $item = null;
 
@@ -69,6 +73,7 @@ class ItemForm extends Control
      * @param StructureFileRepository $structureFileRepository
      * @param LocaleRepository $localeRepository
      * @param Carousel $carousel
+     * @param File $file,
      * @param Item|null $item
      */
     public function __construct(
@@ -78,6 +83,7 @@ class ItemForm extends Control
         StructureFileRepository $structureFileRepository,
         LocaleRepository $localeRepository,
         Carousel $carousel,
+        File $file,
         Item $item = null
     ) {
         parent::__construct();
@@ -90,7 +96,7 @@ class ItemForm extends Control
         $this->pictureRepository = $itemRepository;
         $this->structureFileRepository = $structureFileRepository;
         $this->localeRepository = $localeRepository;
-
+        $this->file = $file;
 
         if ($this->item) {
             
@@ -229,6 +235,7 @@ class ItemForm extends Control
     public function render()
     {
         $template = $this->template;
+        $template->fileSelectorPath = $this->file->getFileSelectorPath();
         $template->activeLocales = $this->localeRepository->getActive();
         $template->setFile(__DIR__ . '/ItemForm.latte');
         $template->render();
