@@ -37,12 +37,12 @@ class InstallCommand extends Command
 
             $entityManager->persist($aclResource);
 
-            $aclOperation = new AclOperation($aclResource, 'edit', 'Allows editation of carousel');
-            $entityManager->persist($aclOperation);
-            $aclOperation = new AclOperation($aclResource, 'delete', 'Allows deletion of carousel');
-            $entityManager->persist($aclOperation);
+            $aclOperationEdit = new AclOperation($aclResource, 'edit', 'Allows editation of carousel');
+            $entityManager->persist($aclOperationEdit);
+            $aclOperationDelete = new AclOperation($aclResource, 'delete', 'Allows deletion of carousel');
+            $entityManager->persist($aclOperationDelete);
 
-            $adminMenu = new Menu('Carousel', ':Admin:Carousel:Carousel', 'fa-exchange', $aclOperation);
+            $adminMenu = new Menu('Carousel', ':Admin:Carousel:Carousel', 'fa-exchange', $aclOperationEdit);
 
             $foundRoot = $adminMenuRepository->getOneByName('Site items');
 
