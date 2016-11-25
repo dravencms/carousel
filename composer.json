@@ -1,6 +1,6 @@
 {
   "name": "dravencms/carousel",
-  "type": "library",
+  "type": "dravencms-package",
   "description": "Carousel module for dravencms",
   "keywords": [
     "dravencms",
@@ -23,6 +23,19 @@
   "autoload": {
     "psr-0": {
       "Dravencms\\": "src/"
+    }
+  },
+  "extra": {
+    "dravencms": {
+      "configuration": {
+        "extensions": {
+          "timeline": "Dravencms\\Carousel\\DI\\CarouselExtension"
+        }
+      },
+      "scripts": {
+        "post-install": "Dravencms\\Carousel\\Script\\PostInstall",
+        "pre-uninstall": "Dravencms\\Carousel\\Script\\PreUninstall"
+      }
     }
   }
 }
