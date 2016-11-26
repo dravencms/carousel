@@ -29,7 +29,7 @@
     "dravencms": {
       "configuration": {
         "extensions": {
-          "timeline": "Dravencms\\Carousel\\DI\\CarouselExtension"
+          "carousel": "Dravencms\\Carousel\\DI\\CarouselExtension"
         }
       },
       "scripts": {
