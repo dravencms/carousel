@@ -1,5 +1,5 @@
 <?php
-namespace Dravencms\Form\Script;
+namespace Dravencms\Carousel\Script;
 
 use Dravencms\Model\User\Repository\AclResourceRepository;
 use Dravencms\Packager\IPackage;

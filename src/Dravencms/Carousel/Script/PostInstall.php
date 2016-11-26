@@ -1,6 +1,6 @@
 <?php
 
-namespace Dravencms\Form\Script;
+namespace Dravencms\Carousel\Script;
 
 use Dravencms\Model\Admin\Entities\Menu;
 use Dravencms\Model\Admin\Repository\MenuRepository;
