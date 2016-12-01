@@ -77,6 +77,14 @@ class CarouselRepository implements ICmsComponentRepository
     }
 
     /**
+     * @return array|mixed
+     */
+    public function getActive()
+    {
+        return $this->carouselRepository->findBy(['isActive' => true]);
+    }
+
+    /**
      * @param $name
      * @param Carousel|null $carouselIgnore
      * @return boolean

@@ -1,2 +1,3 @@
 - Dravencms\Model\Carousel\Repository\CarouselRepository
+- Dravencms\Model\Carousel\Repository\CarouselCmsRepository
 - Dravencms\Model\Carousel\Repository\ItemRepository
