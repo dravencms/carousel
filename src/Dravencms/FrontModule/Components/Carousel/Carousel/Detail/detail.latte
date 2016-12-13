@@ -1,4 +1,4 @@
-<div id="$carousel->getName()|webalize" class="slider flexslider">
+<div n:if="$carousel" id="$carousel->getName()|webalize" class="slider flexslider">
     <ul class="slides">
         <li n:foreach="$carousel->getItems() as $image">
             <img n:img="$image->getStructureFile()->getFile(), '1140x350', 'exact'"  alt="{$carousel->name}" />
