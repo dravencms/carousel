@@ -15,10 +15,12 @@
     }
   ],
   "require": {
+    "dravencms/file": "@dev",
+    "dravencms/admin": "@dev",
+    "dravencms/structure": "@dev"
   },
   "require-dev": {
-    "nette/tester": "@dev",
-    "dravencms/file": "@dev"
+    "nette/tester": "@dev"
   },
   "autoload": {
     "psr-0": {
