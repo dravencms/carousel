@@ -1,11 +1,11 @@
 <?php
 namespace Dravencms\Model\Carousel\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Dravencms\Model\File\Entities\StructureFile;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
-use Gedmo\Sortable\Sortable;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
 use Nette;
@@ -14,7 +14,7 @@ use Nette;
  * Class Item
  * @package App\Model\Carousel\Entities
  * @ORM\Entity(repositoryClass="Gedmo\Sortable\Entity\Repository\SortableRepository")
- * @ORM\Table(name="carouselItem")
+ * @ORM\Table(name="carouselItem", uniqueConstraints={@UniqueConstraint(name="identifier_unique", columns={"identifier", "carousel_id"})})
  */
 class Item extends Nette\Object
 {
@@ -23,39 +23,10 @@ class Item extends Nette\Object
 
     /**
      * @var string
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string",length=255,nullable=false,unique=true)
+     * @ORM\Column(type="string",length=255,nullable=false)
      */
-    private $name;
-
-    /**
-     * @var string
-     * @Gedmo\Translatable
-     * @ORM\Column(type="text",nullable=false)
-     */
-    private $description;
-
-    /**
-     * @var string
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string",length=255,nullable=true)
-     */
-    private $url;
-
-    /**
-     * @var string
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string",length=255,nullable=true)
-     */
-    private $buttonUrl;
-
-    /**
-     * @var string
-     * @Gedmo\Translatable
-     * @ORM\Column(type="string",length=255,nullable=true)
-     */
-    private $buttonText;
-
+    private $identifier;
+    
     /**
      * @var integer
      * @Gedmo\SortablePosition
@@ -70,16 +41,8 @@ class Item extends Nette\Object
     private $isActive;
 
     /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     * and it is not necessary because globally locale can be set in listener
-     */
-    private $locale;
-
-    /**
      * @var StructureFile
-     * @ORM\ManyToOne(targetEntity="\Dravencms\Model\File\Entities\StructureFile", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="\Dravencms\Model\File\Entities\StructureFile")
      * @ORM\JoinColumn(name="structure_file_id", referencedColumnName="id")
      */
     private $structureFile;
@@ -93,75 +56,33 @@ class Item extends Nette\Object
     private $carousel;
 
     /**
+     * @var ArrayCollection|ItemTranslation[]
+     * @ORM\OneToMany(targetEntity="ItemTranslation", mappedBy="item",cascade={"persist", "remove"})
+     */
+    private $translations;
+
+    /**
      * Item constructor.
      * @param Carousel $carousel
      * @param StructureFile $structureFile
-     * @param $name
-     * @param $description
-     * @param null $url
-     * @param null $buttonUrl
-     * @param null $buttonText
+     * @param $identifier
      * @param bool $isActive
      */
-    public function __construct(Carousel $carousel, StructureFile $structureFile, $name, $description, $url = null, $buttonUrl = null, $buttonText = null, $isActive = true)
+    public function __construct(Carousel $carousel, StructureFile $structureFile, $identifier, $isActive = true)
     {
-        $this->name = $name;
-        $this->description = $description;
-        $this->url = $url;
-        $this->buttonUrl = $buttonUrl;
-        $this->buttonText = $buttonText;
+        $this->identifier = $identifier;
         $this->isActive = $isActive;
         $this->structureFile = $structureFile;
         $this->carousel = $carousel;
-    }
-
-
-    /**
-     * @param $locale
-     */
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
+        $this->translations = new ArrayCollection();
     }
 
     /**
-     * @param string $name
+     * @param string $identifier
      */
-    public function setName($name)
+    public function setIdentifier($identifier)
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @param string $url
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    /**
-     * @param string $buttonUrl
-     */
-    public function setButtonUrl($buttonUrl)
-    {
-        $this->buttonUrl = $buttonUrl;
-    }
-
-    /**
-     * @param string $buttonText
-     */
-    public function setButtonText($buttonText)
-    {
-        $this->buttonText = $buttonText;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
+        $this->identifier = $identifier;
     }
 
     /**
@@ -191,17 +112,9 @@ class Item extends Nette\Object
     /**
      * @return string
      */
-    public function getName()
+    public function getIdentifier()
     {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        return $this->identifier;
     }
 
     /**
@@ -237,27 +150,11 @@ class Item extends Nette\Object
     }
 
     /**
-     * @return string
+     * @return ArrayCollection|ItemTranslation[]
      */
-    public function getUrl()
+    public function getTranslations()
     {
-        return $this->url;
-    }
-
-    /**
-     * @return string
-     */
-    public function getButtonUrl()
-    {
-        return $this->buttonUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getButtonText()
-    {
-        return $this->buttonText;
+        return $this->translations;
     }
 }
 

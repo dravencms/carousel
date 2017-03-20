@@ -1,6 +1,8 @@
 - Dravencms\Model\Carousel\Repository\CarouselRepository
+- Dravencms\Model\Carousel\Repository\CarouselTranslationRepository
 - Dravencms\Model\Carousel\Repository\CarouselCmsRepository
 - Dravencms\Model\Carousel\Repository\ItemRepository
+- Dravencms\Model\Carousel\Repository\ItemTranslationRepository
 
 - Dravencms\Model\Carousel\Fixtures\AclOperationFixtures
 - Dravencms\Model\Carousel\Fixtures\AclResourceFixtures

@@ -73,7 +73,7 @@ class CarouselForm extends BaseControl
 
         if ($this->carousel) {
             $defaults = [
-                'name' => $this->carousel->getName(),
+                'name' => $this->carousel->getIdentifier(),
                 'isActive' => $this->carousel->isActive()
             ];
 
@@ -115,7 +115,7 @@ class CarouselForm extends BaseControl
     public function editFormValidate(Form $form)
     {
         $values = $form->getValues();
-        if (!$this->carouselRepository->isNameFree($values->name, $this->carousel)) {
+        if (!$this->carouselRepository->isIdentifierFree($values->name, $this->carousel)) {
             $form->addError('Tento název je již zabrán.');
         }
 
@@ -135,7 +135,7 @@ class CarouselForm extends BaseControl
 
         if ($this->carousel) {
             $carousel = $this->carousel;
-            $carousel->setName($values->name);
+            $carousel->setIdentifier($values->name);
             $carousel->setIsActive($values->isActive);
         } else {
             $carousel = new Carousel($values->name, $values->isActive);

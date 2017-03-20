@@ -116,7 +116,7 @@ class ItemForm extends BaseControl
 
             $defaultLocale = $this->localeRepository->getDefault();
             if ($defaultLocale) {
-                $defaults[$defaultLocale->getLanguageCode()]['name'] = $this->item->getName();
+                $defaults[$defaultLocale->getLanguageCode()]['name'] = $this->item->getIdentifier();
                 $defaults[$defaultLocale->getLanguageCode()]['description'] = $this->item->getDescription();
                 $defaults[$defaultLocale->getLanguageCode()]['buttonUrl'] = $this->item->getButtonUrl();
                 $defaults[$defaultLocale->getLanguageCode()]['buttonText'] = $this->item->getButtonText();

@@ -5,23 +5,16 @@
 
 namespace Dravencms\Model\Carousel\Repository;
 
-use Dravencms\Locale\TLocalizedRepository;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
-use Salamek\Cms\CmsActionOption;
-use Salamek\Cms\ICmsActionOption;
-use Salamek\Cms\ICmsComponentRepository;
-use Salamek\Cms\Models\ILocale;
 
 /**
  * Class CarouselRepository
  * @package App\Model\Carousel\Repository
  */
-class CarouselRepository implements ICmsComponentRepository
+class CarouselRepository
 {
-    use TLocalizedRepository;
-
     /** @var \Kdyby\Doctrine\EntityRepository */
     private $carouselRepository;
 
@@ -77,7 +70,7 @@ class CarouselRepository implements ICmsComponentRepository
     }
 
     /**
-     * @return array|mixed
+     * @return Carousel[]
      */
     public function getActive()
     {
@@ -85,18 +78,18 @@ class CarouselRepository implements ICmsComponentRepository
     }
 
     /**
-     * @param $name
+     * @param $identifier
      * @param Carousel|null $carouselIgnore
      * @return boolean
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isNameFree($name, Carousel $carouselIgnore = null)
+    public function isIdentifierFree($identifier, Carousel $carouselIgnore = null)
     {
         $qb = $this->carouselRepository->createQueryBuilder('c')
             ->select('c')
-            ->where('c.name = :name')
+            ->where('c.identifier = :identifier')
             ->setParameters([
-                'name' => $name
+                'identifier' => $identifier
             ]);
 
         if ($carouselIgnore)
@@ -109,46 +102,11 @@ class CarouselRepository implements ICmsComponentRepository
     }
 
     /**
-     * @param string $componentAction
-     * @return ICmsActionOption[]
-     */
-    public function getActionOptions($componentAction)
-    {
-        switch ($componentAction)
-        {
-            case 'Detail':
-                $return = [];
-                /** @var Carousel $carousel */
-                foreach ($this->carouselRepository->findBy(['isActive' => true]) AS $carousel) {
-                    $return[] = new CmsActionOption($carousel->getName(), ['id' => $carousel->getId()]);
-                }
-                break;
-
-            default:
-                return false;
-                break;
-        }
-
-
-        return $return;
-    }
-
-    /**
-     * @param string $componentAction
      * @param array $parameters
-     * @param ILocale $locale
-     * @return null|CmsActionOption
+     * @return mixed|null|object
      */
-    public function getActionOption($componentAction, array $parameters, ILocale $locale)
+    public function getOneByParameters(array $parameters)
     {
-        /** @var Carousel $found */
-        $found = $this->findTranslatedOneBy($this->carouselRepository, $locale, $parameters + ['isActive' => true]);
-
-        if ($found)
-        {
-            return new CmsActionOption($found->getName(), $parameters);
-        }
-
-        return null;
+        return $this->carouselRepository->findOneBy($parameters);
     }
 }

@@ -23,30 +23,27 @@ class Carousel extends Nette\Object
 
     /**
      * @var string
-     * @Gedmo\Translatable
      * @ORM\Column(type="string",length=255,nullable=false,unique=true)
      */
-    private $name;
+    private $identifier;
 
     /**
      * @var boolean
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $isActive;
-
-    /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     * and it is not necessary because globally locale can be set in listener
-     */
-    private $locale;
-
+    
     /**
      * @var ArrayCollection|Item[]
      * @ORM\OneToMany(targetEntity="Item", mappedBy="carousel",cascade={"persist"})
      */
     private $items;
+
+    /**
+     * @var ArrayCollection|CarouselTranslation[]
+     * @ORM\OneToMany(targetEntity="CarouselTranslation", mappedBy="carousel",cascade={"persist", "remove"})
+     */
+    private $translations;
 
     /**
      * Carousel constructor.
@@ -55,25 +52,18 @@ class Carousel extends Nette\Object
      */
     public function __construct($name, $isActive = true)
     {
-        $this->name = $name;
+        $this->identifier = $name;
         $this->isActive = $isActive;
         $this->items = new ArrayCollection();
+        $this->translations = new ArrayCollection();
     }
-
+    
     /**
-     * @param $locale
+     * @param string $identifier
      */
-    public function setTranslatableLocale($locale)
+    public function setIdentifier($identifier)
     {
-        $this->locale = $locale;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+        $this->identifier = $identifier;
     }
 
     /**
@@ -87,9 +77,9 @@ class Carousel extends Nette\Object
     /**
      * @return string
      */
-    public function getName()
+    public function getIdentifier()
     {
-        return $this->name;
+        return $this->identifier;
     }
 
     /**
@@ -106,6 +96,14 @@ class Carousel extends Nette\Object
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * @return ArrayCollection|CarouselTranslation[]
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
     }
 }
 

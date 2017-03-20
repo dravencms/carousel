@@ -104,7 +104,7 @@ class ItemGrid extends BaseControl
                     $img = '';
                 }
 
-                return $img . Html::el('br') . $row->getName();
+                return $img . Html::el('br') . $row->getIdentifier();
             })
             ->setFilterText()
             ->setSuggestion();
