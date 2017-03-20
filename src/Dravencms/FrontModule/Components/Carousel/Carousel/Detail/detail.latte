@@ -1,11 +1,11 @@
-<div n:if="$carousel" id="$carousel->getName()|webalize" class="slider flexslider">
+<div n:if="$carousel" id="$carousel->getIdentifier()|webalize" class="slider flexslider">
     <ul class="slides">
-        <li n:foreach="$carousel->getItems() as $image">
-            <img n:img="$image->getStructureFile()->getFile(), '1140x350', 'exact'"  alt="{$carousel->name}" />
+        <li n:foreach="$translatedItems AS $translatedItem">
+            <img n:img="$translatedItem->getItem()->getStructureFile()->getFile(), '1140x350', 'exact'"  alt="{$translatedItem->getName()}" />
             <p class="flex-caption">
-                <span class="main" n:if="$image->name">{$image->name}</span>
+                <span class="main" n:if="$translatedItem->getName()">{$translatedItem->getName()}</span>
                 <br />
-                <span class="secondary clearfix" n:if="$image->description">{$image->description}</span>
+                <span class="secondary clearfix" n:if="$translatedItem->getDescription()">{$translatedItem->getDescription()}</span>
             </p>
         </li>
     </ul><!--//slides-->

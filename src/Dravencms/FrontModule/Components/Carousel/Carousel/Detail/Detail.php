@@ -3,7 +3,9 @@
 namespace Dravencms\FrontModule\Components\Carousel\Carousel\Detail;
 
 use Dravencms\Components\BaseControl\BaseControl;
+use Dravencms\Locale\CurrentLocale;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
+use Dravencms\Model\Carousel\Repository\ItemTranslationRepository;
 use Salamek\Cms\ICmsActionOption;
 
 /**
@@ -18,16 +20,31 @@ class Detail extends BaseControl
     /** @var ICmsActionOption */
     private $cmsActionOption;
 
+    /** @var ItemTranslationRepository */
+    private $itemTranslationRepository;
+
+    /** @var CurrentLocale */
+    private $currentLocale;
+
     /**
      * Detail constructor.
      * @param ICmsActionOption $cmsActionOption
      * @param CarouselRepository $carouselRepository
+     * @param ItemTranslationRepository $itemTranslationRepository
+     * @param CurrentLocale $currentLocale
      */
-    public function __construct(ICmsActionOption $cmsActionOption, CarouselRepository $carouselRepository)
+    public function __construct(
+        ICmsActionOption $cmsActionOption,
+        CarouselRepository $carouselRepository,
+        ItemTranslationRepository $itemTranslationRepository,
+        CurrentLocale $currentLocale
+    )
     {
         parent::__construct();
         $this->cmsActionOption = $cmsActionOption;
         $this->carouselRepository = $carouselRepository;
+        $this->itemTranslationRepository = $itemTranslationRepository;
+        $this->currentLocale = $currentLocale;
     }
 
     public function render()
@@ -38,7 +55,16 @@ class Detail extends BaseControl
 
         $template->carousel = $carousel;
 
-        $template->setFile(__DIR__ . '/detail.latte');
+        $translatedItems = [];
+
+        foreach($carousel->getItems() AS $item)
+        {
+            $translatedItems[] = $this->itemTranslationRepository->getTranslation($item, $this->currentLocale);
+        }
+
+        $template->translatedItems = $translatedItems;
+
+        $template->setFile($this->cmsActionOption->getTemplatePath(__DIR__ . '/detail.latte'));
         $template->render();
     }
 }
