@@ -25,12 +25,10 @@ class AdminMenuFixtures extends AbstractFixture implements DependentFixtureInter
 
         if ($parent = $menu->findOneBy(['name' => 'Site items']))
         {
-            $menu->persistAsLastChildOf($adminMenu, $parent);
+            $adminMenu->setParent($parent);
         }
-        else
-        {
-            $manager->persist($adminMenu);
-        }
+
+        $manager->persist($adminMenu);
 
         $manager->flush();
     }

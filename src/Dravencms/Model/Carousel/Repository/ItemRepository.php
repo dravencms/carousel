@@ -63,4 +63,33 @@ class ItemRepository
         return $qb;
     }
 
+    /**
+     * @param $identifier
+     * @param Carousel $carousel
+     * @param Item|null $itemIgnore
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function isIdentifierFree($identifier, Carousel $carousel, Item $itemIgnore = null)
+    {
+        $qb = $this->itemRepository->createQueryBuilder('i')
+            ->select('i')
+            ->where('i.identifier = :identifier')
+            ->andWhere('i.carousel = :carousel')
+            ->setParameters([
+                'identifier' => $identifier,
+                'carousel' => $carousel,
+            ]);
+
+        if ($itemIgnore)
+        {
+            $qb->andWhere('i != :itemIgnore')
+                ->setParameter('itemIgnore', $itemIgnore);
+        }
+
+        $query = $qb->getQuery();
+
+        return (is_null($query->getOneOrNullResult()));
+    }
+
 }

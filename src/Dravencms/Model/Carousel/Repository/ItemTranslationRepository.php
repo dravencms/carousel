@@ -67,4 +67,13 @@ class ItemTranslationRepository
         return (is_null($query->getOneOrNullResult()));
     }
 
+    /**
+     * @param Item $item
+     * @param ILocale $locale
+     * @return null|ItemTranslation
+     */
+    public function getTranslation(Item $item, ILocale $locale)
+    {
+        return $this->itemTranslationRepository->findOneBy(['item' => $item, 'locale' => $locale]);
+    }
 }

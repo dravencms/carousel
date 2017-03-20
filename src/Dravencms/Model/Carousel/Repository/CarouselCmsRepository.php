@@ -23,26 +23,20 @@ class CarouselCmsRepository implements ICmsComponentRepository
     /** @var CarouselRepository */
     private $carouselRepository;
 
-    /** @var CarouselTranslationRepository */
-    private $carouselTranslationRepository;
-
     /** @var CurrentLocale */
     private $currentLocale;
 
     /**
      * CarouselCmsRepository constructor.
      * @param CarouselRepository $carouselRepository
-     * @param CarouselTranslationRepository $carouselTranslationRepository
      * @param CurrentLocale $currentLocale
      */
     public function __construct(
         CarouselRepository $carouselRepository,
-        CarouselTranslationRepository $carouselTranslationRepository,
         CurrentLocale $currentLocale
     )
     {
         $this->carouselRepository = $carouselRepository;
-        $this->carouselTranslationRepository = $carouselTranslationRepository;
         $this->currentLocale = $currentLocale;
     }
 
@@ -84,18 +78,6 @@ class CarouselCmsRepository implements ICmsComponentRepository
         if ($found)
         {
             $cmsActionOption = new CmsActionOption($found->getIdentifier(), $parameters);
-
-            foreach($found->getTranslations() AS $carouselTranslation)
-            {
-                $cmsActionOption->addTranslation(new CmsActionOptionTranslation(
-                    new Locale($carouselTranslation->getLocale()),
-                    $carouselTranslation->getName(),
-                    $carouselTranslation->getName(),
-                    $carouselTranslation->getName(),
-                    $carouselTranslation->getName()
-                ));
-            }
-
             return $cmsActionOption;
         }
 

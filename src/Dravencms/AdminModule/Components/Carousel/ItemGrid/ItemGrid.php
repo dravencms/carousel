@@ -23,6 +23,7 @@ namespace Dravencms\AdminModule\Components\Carousel\ItemGrid;
 
 use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Components\BaseGrid\BaseGridFactory;
+use Dravencms\Locale\CurrentLocale;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
@@ -47,8 +48,8 @@ class ItemGrid extends BaseControl
     /** @var EntityManager */
     private $entityManager;
 
-    /** @var LocaleRepository */
-    private $localeRepository;
+    /** @var CurrentLocale */
+    private $currentLocale;
 
     /** @var ImagePipe */
     private $imagePipe;
@@ -67,17 +68,24 @@ class ItemGrid extends BaseControl
      * @param ItemRepository $itemRepository
      * @param BaseGridFactory $baseGridFactory
      * @param EntityManager $entityManager
-     * @param LocaleRepository $localeRepository
+     * @param CurrentLocale $currentLocale
      * @param ImagePipe $imagePipe
      */
-    public function __construct(Carousel $carousel, ItemRepository $itemRepository, BaseGridFactory $baseGridFactory, EntityManager $entityManager, LocaleRepository $localeRepository, ImagePipe $imagePipe)
+    public function __construct(
+        Carousel $carousel,
+        ItemRepository $itemRepository,
+        BaseGridFactory $baseGridFactory,
+        EntityManager $entityManager,
+        CurrentLocale $currentLocale,
+        ImagePipe $imagePipe
+    )
     {
         parent::__construct();
 
         $this->baseGridFactory = $baseGridFactory;
         $this->itemRepository = $itemRepository;
         $this->entityManager = $entityManager;
-        $this->localeRepository = $localeRepository;
+        $this->currentLocale = $currentLocale;
         $this->imagePipe = $imagePipe;
         $this->carousel = $carousel;
     }
@@ -85,7 +93,7 @@ class ItemGrid extends BaseControl
 
     /**
      * @param $name
-     * @return \Dravencms\Components\BaseGrid
+     * @return \Dravencms\Components\BaseGrid\BaseGrid
      */
     public function createComponentGrid($name)
     {
@@ -94,7 +102,7 @@ class ItemGrid extends BaseControl
         $grid->setModel($this->itemRepository->getItemQueryBuilder($this->carousel));
 
         $grid->setDefaultSort(['position' => 'ASC']);
-        $grid->addColumnText('name', 'Name')
+        $grid->addColumnText('identifier', 'Name')
             ->setCustomRender(function ($row) use($grid){
                 /** @var Item $row */
                 if ($haveImage = $row->getStructureFile()) {
@@ -109,9 +117,9 @@ class ItemGrid extends BaseControl
             ->setFilterText()
             ->setSuggestion();
 
-        $grid->getColumn('name')->cellPrototype->class[] = 'center';
+        $grid->getColumn('identifier')->cellPrototype->class[] = 'center';
 
-        $grid->addColumnDate('updatedAt', 'Last edit', $this->localeRepository->getLocalizedDateTimeFormat())
+        $grid->addColumnDate('updatedAt', 'Last edit', $this->currentLocale->getDateTimeFormat())
             ->setSortable()
             ->setFilterDate();
         $grid->getColumn('updatedAt')->cellPrototype->class[] = 'center';
@@ -139,7 +147,7 @@ class ItemGrid extends BaseControl
                 })
                 ->setIcon('trash-o')
                 ->setConfirm(function ($row) {
-                    return ['Opravdu chcete smazat carousel %s ?', $row->name];
+                    return ['Opravdu chcete smazat carousel %s ?', $row->getIdentifier()];
                 });
 
 

@@ -40,12 +40,6 @@ class Carousel extends Nette\Object
     private $items;
 
     /**
-     * @var ArrayCollection|CarouselTranslation[]
-     * @ORM\OneToMany(targetEntity="CarouselTranslation", mappedBy="carousel",cascade={"persist", "remove"})
-     */
-    private $translations;
-
-    /**
      * Carousel constructor.
      * @param string $name
      * @param bool $isActive
@@ -55,7 +49,6 @@ class Carousel extends Nette\Object
         $this->identifier = $name;
         $this->isActive = $isActive;
         $this->items = new ArrayCollection();
-        $this->translations = new ArrayCollection();
     }
     
     /**
@@ -96,14 +89,6 @@ class Carousel extends Nette\Object
     public function getItems()
     {
         return $this->items;
-    }
-
-    /**
-     * @return ArrayCollection|CarouselTranslation[]
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
     }
 }
 

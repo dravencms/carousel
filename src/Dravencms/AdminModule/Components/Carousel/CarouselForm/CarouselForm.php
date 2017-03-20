@@ -73,10 +73,9 @@ class CarouselForm extends BaseControl
 
         if ($this->carousel) {
             $defaults = [
-                'name' => $this->carousel->getIdentifier(),
+                'identifier' => $this->carousel->getIdentifier(),
                 'isActive' => $this->carousel->isActive()
             ];
-
         }
         else{
             $defaults = [
@@ -88,15 +87,15 @@ class CarouselForm extends BaseControl
     }
 
     /**
-     * @return \Dravencms\Components\BaseForm
+     * @return \Dravencms\Components\BaseForm\BaseForm
      */
     protected function createComponentForm()
     {
         $form = $this->baseFormFactory->create();
 
-        $form->addText('name')
-            ->setRequired('Please enter gallery name.')
-            ->addRule(Form::MAX_LENGTH, 'Gallery name is too long.', 255);
+        $form->addText('identifier')
+            ->setRequired('Please enter carousel identifier.')
+            ->addRule(Form::MAX_LENGTH, 'Carousel identifier is too long.', 255);
 
         $form->addCheckbox('isActive');
 
@@ -115,8 +114,8 @@ class CarouselForm extends BaseControl
     public function editFormValidate(Form $form)
     {
         $values = $form->getValues();
-        if (!$this->carouselRepository->isIdentifierFree($values->name, $this->carousel)) {
-            $form->addError('Tento název je již zabrán.');
+        if (!$this->carouselRepository->isIdentifierFree($values->identifier, $this->carousel)) {
+            $form->addError('Tento identifier je již zabrán.');
         }
 
         if (!$this->presenter->isAllowed('carousel', 'edit')) {
@@ -135,10 +134,10 @@ class CarouselForm extends BaseControl
 
         if ($this->carousel) {
             $carousel = $this->carousel;
-            $carousel->setIdentifier($values->name);
+            $carousel->setIdentifier($values->identifier);
             $carousel->setIsActive($values->isActive);
         } else {
-            $carousel = new Carousel($values->name, $values->isActive);
+            $carousel = new Carousel($values->identifier, $values->isActive);
         }
 
 

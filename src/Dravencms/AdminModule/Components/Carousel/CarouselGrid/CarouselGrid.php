@@ -23,6 +23,7 @@ namespace Dravencms\AdminModule\Components\Carousel\CarouselGrid;
 
 use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Components\BaseGrid\BaseGridFactory;
+use Dravencms\Locale\CurrentLocale;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
@@ -44,8 +45,8 @@ class CarouselGrid extends BaseControl
     /** @var EntityManager */
     private $entityManager;
 
-    /** @var LocaleRepository */
-    private $localeRepository;
+    /** @var CurrentLocale */
+    private $currentLocale;
 
     /**
      * @var array
@@ -57,22 +58,27 @@ class CarouselGrid extends BaseControl
      * @param CarouselRepository $carouselRepository
      * @param BaseGridFactory $baseGridFactory
      * @param EntityManager $entityManager
-     * @param LocaleRepository $localeRepository
+     * @param CurrentLocale $currentLocale
      */
-    public function __construct(CarouselRepository $carouselRepository, BaseGridFactory $baseGridFactory, EntityManager $entityManager, LocaleRepository $localeRepository)
+    public function __construct(
+        CarouselRepository $carouselRepository,
+        BaseGridFactory $baseGridFactory,
+        EntityManager $entityManager,
+        CurrentLocale $currentLocale
+    )
     {
         parent::__construct();
 
         $this->baseGridFactory = $baseGridFactory;
         $this->carouselRepository = $carouselRepository;
         $this->entityManager = $entityManager;
-        $this->localeRepository = $localeRepository;
+        $this->currentLocale = $currentLocale;
     }
 
 
     /**
      * @param $name
-     * @return \Dravencms\Components\BaseGrid
+     * @return \Dravencms\Components\BaseGrid\BaseGrid
      */
     public function createComponentGrid($name)
     {
@@ -80,11 +86,11 @@ class CarouselGrid extends BaseControl
 
         $grid->setModel($this->carouselRepository->getCarouselQueryBuilder());
 
-        $grid->addColumnText('name', 'Name')
+        $grid->addColumnText('identifier', 'Identifier')
             ->setFilterText()
             ->setSuggestion();
 
-        $grid->addColumnDate('updatedAt', 'Last edit', $this->localeRepository->getLocalizedDateTimeFormat())
+        $grid->addColumnDate('updatedAt', 'Last edit', $this->currentLocale->getDateTimeFormat())
             ->setSortable()
             ->setFilterDate();
         $grid->getColumn('updatedAt')->cellPrototype->class[] = 'center';
@@ -107,7 +113,7 @@ class CarouselGrid extends BaseControl
                 })
                 ->setIcon('trash-o')
                 ->setConfirm(function ($row) {
-                    return ['Opravdu chcete smazat carousel %s ?', $row->name];
+                    return ['Opravdu chcete smazat carousel %s ?', $row->getIdentifier()];
                 });
 
 

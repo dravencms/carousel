@@ -25,6 +25,8 @@ use Dravencms\Components\BaseForm\BaseFormFactory;
 use Dravencms\File\File;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
+use Dravencms\Model\Carousel\Entities\ItemTranslation;
+use Dravencms\Model\Carousel\Repository\ItemTranslationRepository;
 use Dravencms\Model\File\Repository\StructureFileRepository;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
@@ -45,13 +47,16 @@ class ItemForm extends BaseControl
     private $entityManager;
 
     /** @var ItemRepository */
-    private $pictureRepository;
+    private $itemRepository;
     
     /** @var StructureFileRepository */
     private $structureFileRepository;
 
     /** @var LocaleRepository */
     private $localeRepository;
+
+    /** @var ItemTranslationRepository */
+    private $itemTranslationRepository;
 
     /** @var Carousel */
     private $carousel;
@@ -70,16 +75,18 @@ class ItemForm extends BaseControl
      * @param BaseFormFactory $baseFormFactory
      * @param EntityManager $entityManager
      * @param ItemRepository $itemRepository
+     * @param ItemTranslationRepository $itemTranslationRepository
      * @param StructureFileRepository $structureFileRepository
      * @param LocaleRepository $localeRepository
      * @param Carousel $carousel
-     * @param File $file,
+     * @param File $file
      * @param Item|null $item
      */
     public function __construct(
         BaseFormFactory $baseFormFactory,
         EntityManager $entityManager,
         ItemRepository $itemRepository,
+        ItemTranslationRepository $itemTranslationRepository,
         StructureFileRepository $structureFileRepository,
         LocaleRepository $localeRepository,
         Carousel $carousel,
@@ -93,7 +100,8 @@ class ItemForm extends BaseControl
 
         $this->baseFormFactory = $baseFormFactory;
         $this->entityManager = $entityManager;
-        $this->pictureRepository = $itemRepository;
+        $this->itemRepository = $itemRepository;
+        $this->itemTranslationRepository = $itemTranslationRepository;
         $this->structureFileRepository = $structureFileRepository;
         $this->localeRepository = $localeRepository;
         $this->file = $file;
@@ -101,26 +109,19 @@ class ItemForm extends BaseControl
         if ($this->item) {
             
             $defaults = [
-                /*'name' => $this->item->getName(),
-                'description' => $this->item->getDescription(),*/
+                'identifier' => $this->item->getIdentifier(),
                 'position' => $this->item->getPosition(),
                 'isActive' => $this->item->isActive(),
                 'structureFile' => $this->item->getStructureFile()->getId(),
-                /*'buttonUrl' => $this->item->getButtonUrl(),
-                'buttonText' => $this->item->getButtonText(),
-                'url' => $this->item->getUrl(),*/
             ];
 
-            $repository = $this->entityManager->getRepository('Gedmo\Translatable\Entity\Translation');
-            $defaults += $repository->findTranslations($this->item);
-
-            $defaultLocale = $this->localeRepository->getDefault();
-            if ($defaultLocale) {
-                $defaults[$defaultLocale->getLanguageCode()]['name'] = $this->item->getIdentifier();
-                $defaults[$defaultLocale->getLanguageCode()]['description'] = $this->item->getDescription();
-                $defaults[$defaultLocale->getLanguageCode()]['buttonUrl'] = $this->item->getButtonUrl();
-                $defaults[$defaultLocale->getLanguageCode()]['buttonText'] = $this->item->getButtonText();
-                $defaults[$defaultLocale->getLanguageCode()]['url'] = $this->item->getUrl();
+            foreach ($this->item->getTranslations() AS $translation)
+            {
+                $defaults[$translation->getLocale()->getLanguageCode()]['name'] = $translation->getName();
+                $defaults[$translation->getLocale()->getLanguageCode()]['description'] = $translation->getDescription();
+                $defaults[$translation->getLocale()->getLanguageCode()]['buttonUrl'] = $translation->getButtonUrl();
+                $defaults[$translation->getLocale()->getLanguageCode()]['buttonText'] = $translation->getButtonText();
+                $defaults[$translation->getLocale()->getLanguageCode()]['url'] = $translation->getUrl();
             }
 
         }
@@ -134,7 +135,7 @@ class ItemForm extends BaseControl
     }
 
     /**
-     * @return \Dravencms\Components\BaseForm
+     * @return \Dravencms\Components\BaseForm\BaseForm
      */
     protected function createComponentForm()
     {
@@ -154,6 +155,9 @@ class ItemForm extends BaseControl
 
             $container->addText('url');
         }
+
+        $form->addText('identifier')
+            ->setRequired('Please fill in an identifier');
 
         $form->addText('structureFile')
             ->setType('number')
@@ -179,8 +183,12 @@ class ItemForm extends BaseControl
     {
         $values = $form->getValues();
 
+        if (!$this->itemRepository->isIdentifierFree($values->identifier, $this->carousel, $this->item)) {
+            $form->addError('Tento identifier je již zabrán.');
+        }
+        
         foreach ($this->localeRepository->getActive() AS $activeLocale) {
-            if (!$this->pictureRepository->isNameFree($values->{$activeLocale->getLanguageCode()}->name, $activeLocale, $this->carousel, $this->item)) {
+            if (!$this->itemTranslationRepository->isNameFree($values->{$activeLocale->getLanguageCode()}->name, $activeLocale, $this->carousel, $this->item)) {
                 $form->addError('Tento název je již zabrán.');
             }
         }
@@ -201,31 +209,41 @@ class ItemForm extends BaseControl
         $structureFile = $this->structureFileRepository->getOneById($values->structureFile);
         if ($this->item) {
             $item = $this->item;
-            /*$item->setName($values->name);
-            $item->setDescription($values->description);*/
+            $item->setIdentifier($values->identifier);
             $item->setIsActive($values->isActive);
             $item->setPosition($values->position);
-            /*$item->setUrl($values->url);
-            $item->setButtonText($values->buttonText);
-            $item->setButtonUrl($values->buttonUrl);*/
             $item->setStructureFile($structureFile);
         } else {
-            $defaultLocale = $this->localeRepository->getDefault();
-            $item = new Item($this->carousel, $structureFile, $values->{$defaultLocale->getLanguageCode()}->name, $values->{$defaultLocale->getLanguageCode()}->description, $values->{$defaultLocale->getLanguageCode()}->url, $values->{$defaultLocale->getLanguageCode()}->buttonUrl, $values->{$defaultLocale->getLanguageCode()}->buttonText, $values->isActive);
-        }
-
-        $repository = $this->entityManager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
-
-        foreach ($this->localeRepository->getActive() AS $activeLocale) {
-            $repository->translate($item, 'name', $activeLocale->getLanguageCode(), $values->{$activeLocale->getLanguageCode()}->name)
-                ->translate($item, 'description', $activeLocale->getLanguageCode(), $values->{$activeLocale->getLanguageCode()}->description)
-                ->translate($item, 'url', $activeLocale->getLanguageCode(), $values->{$activeLocale->getLanguageCode()}->url)
-                ->translate($item, 'buttonText', $activeLocale->getLanguageCode(), $values->{$activeLocale->getLanguageCode()}->buttonText)
-                ->translate($item, 'buttonUrl', $activeLocale->getLanguageCode(), $values->{$activeLocale->getLanguageCode()}->buttonUrl);
+            $item = new Item($this->carousel, $structureFile, $values->identifier, $values->isActive);
         }
 
         $this->entityManager->persist($item);
 
+        $this->entityManager->flush();
+
+        foreach ($this->localeRepository->getActive() AS $activeLocale) {
+            if ($articleTranslation = $this->itemTranslationRepository->getTranslation($item, $activeLocale))
+            {
+                $articleTranslation->setName($values->{$activeLocale->getLanguageCode()}->name);
+                $articleTranslation->setButtonText($values->{$activeLocale->getLanguageCode()}->buttonText);
+                $articleTranslation->setButtonUrl($values->{$activeLocale->getLanguageCode()}->buttonUrl);
+                $articleTranslation->setDescription($values->{$activeLocale->getLanguageCode()}->description);
+                $articleTranslation->setUrl($values->{$activeLocale->getLanguageCode()}->url);
+            }
+            else
+            {
+                $articleTranslation = new ItemTranslation(
+                    $item,
+                    $activeLocale,
+                    $values->{$activeLocale->getLanguageCode()}->name,
+                    $values->{$activeLocale->getLanguageCode()}->description,
+                    $values->{$activeLocale->getLanguageCode()}->url,
+                    $values->{$activeLocale->getLanguageCode()}->buttonUrl,
+                    $values->{$activeLocale->getLanguageCode()}->buttonText
+                );
+            }
+            $this->entityManager->persist($articleTranslation);
+        }
         $this->entityManager->flush();
 
         $this->onSuccess($item);
