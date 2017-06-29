@@ -112,7 +112,7 @@ class ItemForm extends BaseControl
                 'identifier' => $this->item->getIdentifier(),
                 'position' => $this->item->getPosition(),
                 'isActive' => $this->item->isActive(),
-                'structureFile' => $this->item->getStructureFile()->getId(),
+                'structureFile' => ($this->item->getStructureFile() ? $this->item->getStructureFile()->getId() : null),
             ];
 
             foreach ($this->item->getTranslations() AS $translation)
