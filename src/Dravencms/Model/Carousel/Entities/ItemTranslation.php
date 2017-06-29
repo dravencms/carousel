@@ -22,7 +22,7 @@ class ItemTranslation extends Nette\Object
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255,nullable=false,unique=true)
+     * @ORM\Column(type="string",length=255,nullable=false)
      */
     private $name;
 
