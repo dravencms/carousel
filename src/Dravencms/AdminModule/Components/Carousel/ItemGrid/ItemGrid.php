@@ -24,6 +24,7 @@ namespace Dravencms\AdminModule\Components\Carousel\ItemGrid;
 use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Components\BaseGrid\BaseGridFactory;
 use Dravencms\Locale\CurrentLocale;
+use Dravencms\Locale\CurrentLocaleResolver;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
@@ -76,7 +77,7 @@ class ItemGrid extends BaseControl
         ItemRepository $itemRepository,
         BaseGridFactory $baseGridFactory,
         EntityManager $entityManager,
-        CurrentLocale $currentLocale,
+        CurrentLocaleResolver $currentLocaleResolver,
         ImagePipe $imagePipe
     )
     {
@@ -85,7 +86,7 @@ class ItemGrid extends BaseControl
         $this->baseGridFactory = $baseGridFactory;
         $this->itemRepository = $itemRepository;
         $this->entityManager = $entityManager;
-        $this->currentLocale = $currentLocale;
+        $this->currentLocale = $currentLocaleResolver->getCurrentLocale();
         $this->imagePipe = $imagePipe;
         $this->carousel = $carousel;
     }

@@ -4,6 +4,7 @@ namespace Dravencms\FrontModule\Components\Carousel\Carousel\Detail;
 
 use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Locale\CurrentLocale;
+use Dravencms\Locale\CurrentLocaleResolver;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Dravencms\Model\Carousel\Repository\ItemTranslationRepository;
 use Salamek\Cms\ICmsActionOption;
@@ -37,14 +38,14 @@ class Detail extends BaseControl
         ICmsActionOption $cmsActionOption,
         CarouselRepository $carouselRepository,
         ItemTranslationRepository $itemTranslationRepository,
-        CurrentLocale $currentLocale
+        CurrentLocaleResolver $currentLocaleResolver
     )
     {
         parent::__construct();
         $this->cmsActionOption = $cmsActionOption;
         $this->carouselRepository = $carouselRepository;
         $this->itemTranslationRepository = $itemTranslationRepository;
-        $this->currentLocale = $currentLocale;
+        $this->currentLocale = $currentLocaleResolver->getCurrentLocale();
     }
 
     public function render()

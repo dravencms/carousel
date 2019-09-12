@@ -5,7 +5,7 @@
 
 namespace Dravencms\Model\Carousel\Repository;
 
-use Dravencms\Locale\CurrentLocale;
+use Dravencms\Locale\CurrentLocaleResolver;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Structure\Bridge\CmsLocale\Locale;
 use Nette;
@@ -33,11 +33,11 @@ class CarouselCmsRepository implements ICmsComponentRepository
      */
     public function __construct(
         CarouselRepository $carouselRepository,
-        CurrentLocale $currentLocale
+        CurrentLocaleResolver $currentLocaleResolver
     )
     {
         $this->carouselRepository = $carouselRepository;
-        $this->currentLocale = $currentLocale;
+        $this->currentLocale = $currentLocaleResolver->getCurrentLocale();
     }
 
     /**

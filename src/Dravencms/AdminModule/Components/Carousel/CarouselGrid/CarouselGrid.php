@@ -24,6 +24,7 @@ namespace Dravencms\AdminModule\Components\Carousel\CarouselGrid;
 use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Components\BaseGrid\BaseGridFactory;
 use Dravencms\Locale\CurrentLocale;
+use Dravencms\Locale\CurrentLocaleResolver;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Kdyby\Doctrine\EntityManager;
@@ -64,7 +65,7 @@ class CarouselGrid extends BaseControl
         CarouselRepository $carouselRepository,
         BaseGridFactory $baseGridFactory,
         EntityManager $entityManager,
-        CurrentLocale $currentLocale
+        CurrentLocaleResolver $currentLocaleResolver
     )
     {
         parent::__construct();
@@ -72,7 +73,7 @@ class CarouselGrid extends BaseControl
         $this->baseGridFactory = $baseGridFactory;
         $this->carouselRepository = $carouselRepository;
         $this->entityManager = $entityManager;
-        $this->currentLocale = $currentLocale;
+        $this->currentLocale = $currentLocaleResolver->getCurrentLocale();
     }
 
 
