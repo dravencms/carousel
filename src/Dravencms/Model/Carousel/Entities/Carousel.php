@@ -4,7 +4,6 @@ namespace Dravencms\Model\Carousel\Entities;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
 use Gedmo\Sortable\Sortable;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kdyby\Doctrine\Entities\Attributes\Identifier;
@@ -16,8 +15,9 @@ use Nette;
  * @ORM\Entity
  * @ORM\Table(name="carouselCarousel")
  */
-class Carousel extends Nette\Object
+class Carousel
 {
+    use Nette\SmartObject;
     use Identifier;
     use TimestampableEntity;
 

@@ -15,8 +15,9 @@ use Nette;
  * @ORM\Entity
  * @ORM\Table(name="carouselItemTranslation")
  */
-class ItemTranslation extends Nette\Object
+class ItemTranslation
 {
+    use Nette\SmartObject;
     use Identifier;
     use TimestampableEntity;
 

@@ -16,8 +16,9 @@ use Nette;
  * @ORM\Entity(repositoryClass="Gedmo\Sortable\Entity\Repository\SortableRepository")
  * @ORM\Table(name="carouselItem", uniqueConstraints={@UniqueConstraint(name="identifier_unique", columns={"identifier", "carousel_id"})})
  */
-class Item extends Nette\Object
+class Item
 {
+    use Nette\SmartObject;
     use Identifier;
     use TimestampableEntity;
 

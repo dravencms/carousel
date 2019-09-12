@@ -3,13 +3,15 @@
 namespace Dravencms\Carousel;
 
 
+use Nette\SmartObject;
+
 /**
  * Class Carousel
  * @package Dravencms\Carousel
  */
-class Carousel extends \Nette\Object
+class Carousel
 {
-
+    use SmartObject;
     public function __construct()
     {
     }
