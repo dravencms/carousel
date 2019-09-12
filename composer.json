@@ -32,11 +32,12 @@
       "configuration": {
         "extensions": {
           "carousel": "Dravencms\\Carousel\\DI\\CarouselExtension"
+        },
+        "doctrine":{
+          "metadata": {
+            "Dravencms\\Model\\Carousel": "%appDir%/../vendor/dravencms/carousel/src/Dravencms/Model/Carousel"
+          }
         }
-      },
-      "scripts": {
-        "post-install": "Dravencms\\Carousel\\Script\\PostInstall",
-        "pre-uninstall": "Dravencms\\Carousel\\Script\\PreUninstall"
       }
     }
   }
