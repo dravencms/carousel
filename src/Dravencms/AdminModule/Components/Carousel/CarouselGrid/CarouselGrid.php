@@ -85,44 +85,47 @@ class CarouselGrid extends BaseControl
     {
         $grid = $this->baseGridFactory->create($this, $name);
 
-        $grid->setModel($this->carouselRepository->getCarouselQueryBuilder());
+        $grid->setDataSource($this->carouselRepository->getCarouselQueryBuilder());
 
         $grid->addColumnText('identifier', 'Identifier')
-            ->setFilterText()
-            ->setSuggestion();
+            ->setSortable()
+            ->setFilterText();
 
-        $grid->addColumnDate('updatedAt', 'Last edit', $this->currentLocale->getDateTimeFormat())
+        $grid->addColumnDateTime('updatedAt', 'Last edit')
+            ->setFormat($this->currentLocale->getDateTimeFormat())
+            ->setAlign('center')
             ->setSortable()
             ->setFilterDate();
-        $grid->getColumn('updatedAt')->cellPrototype->class[] = 'center';
 
         $grid->addColumnBoolean('isActive', 'Active');
 
 
         if ($this->presenter->isAllowed('carousel', 'edit')) {
-            $grid->addActionHref('items', 'Items')
-                ->setIcon('folder-open');
 
-            $grid->addActionHref('edit', 'Upravit')
-                ->setIcon('pencil');
+            $grid->addAction('items', '')
+                ->setIcon('folder-open')
+                ->setTitle('Items')
+                ->setClass('btn btn-xs btn-primary');
+
+
+            $grid->addAction('edit', '')
+                ->setIcon('pencil')
+                ->setTitle('Upravit')
+                ->setClass('btn btn-xs btn-primary');
         }
 
         if ($this->presenter->isAllowed('carousel', 'delete')) {
-            $grid->addActionHref('delete', 'Smazat', 'delete!')
-                ->setCustomHref(function($row){
-                    return $this->link('delete!', $row->getId());
-                })
-                ->setIcon('trash-o')
-                ->setConfirm(function ($row) {
-                    return ['Opravdu chcete smazat carousel %s ?', $row->getIdentifier()];
-                });
-
-
-            $operations = ['delete' => 'Smazat'];
-            $grid->setOperation($operations, [$this, 'gridOperationsHandler'])
-                ->setConfirm('delete', 'Opravu chcete smazat %i locales ?');
+            $grid->addAction('delete', '', 'delete!')
+                ->setIcon('trash')
+                ->setTitle('Smazat')
+                ->setClass('btn btn-xs btn-danger ajax')
+                ->setConfirm('Do you really want to delete row %s?', 'identifier');
+            $grid->addGroupAction('Smazat')->onSelect[] = [$this, 'handleDelete'];
         }
-        $grid->setExport();
+        $grid->addExportCsvFiltered('Csv export (filtered)', 'carousel_filtered.csv')
+            ->setTitle('Csv export (filtered)');
+        $grid->addExportCsv('Csv export', 'carousel_all.csv')
+            ->setTitle('Csv export');
 
         return $grid;
     }

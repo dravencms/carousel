@@ -100,11 +100,12 @@ class ItemGrid extends BaseControl
     {
         $grid = $this->baseGridFactory->create($this, $name);
 
-        $grid->setModel($this->itemRepository->getItemQueryBuilder($this->carousel));
+        $grid->setDataSource($this->itemRepository->getItemQueryBuilder($this->carousel));
 
         $grid->setDefaultSort(['position' => 'ASC']);
         $grid->addColumnText('identifier', 'Name')
-            ->setCustomRender(function ($row) use($grid){
+            ->setAlign('center')
+            ->setRenderer(function ($row) use($grid){
                 /** @var Item $row */
                 if ($haveImage = $row->getStructureFile()) {
                     $img = Html::el('img');
@@ -113,66 +114,46 @@ class ItemGrid extends BaseControl
                     $img = '';
                 }
 
-                return $img . Html::el('br') . $row->getIdentifier();
+                $container = Html::el('div');
+                $container->addHtml($img);
+                $container->addHtml(Html::el('br'));
+                $container->addHtml($row->getIdentifier());
+
+                return $container;
             })
-            ->setFilterText()
-            ->setSuggestion();
+            ->setFilterText();
 
-        $grid->getColumn('identifier')->cellPrototype->class[] = 'center';
-
-        $grid->addColumnDate('updatedAt', 'Last edit', $this->currentLocale->getDateTimeFormat())
+        $grid->addColumnDateTime('updatedAt', 'Last edit')
+            ->setFormat($this->currentLocale->getDateTimeFormat())
+            ->setAlign('center')
             ->setSortable()
             ->setFilterDate();
-        $grid->getColumn('updatedAt')->cellPrototype->class[] = 'center';
 
         $grid->addColumnBoolean('isActive', 'Active');
 
-        $grid->addColumnNumber('position', 'Position')
-            ->setFilterNumber()
-            ->setSuggestion();
-
-        $grid->getColumn('position')->cellPrototype->class[] = 'center';
+        $grid->addColumnPosition('position', 'Position', 'up!', 'down!');
 
         if ($this->presenter->isAllowed('carousel', 'edit')) {
-            $grid->addActionHref('editItem', 'Upravit')
-                ->setCustomHref(function($row){
-                    return $this->presenter->link('editItem', ['carouselId' => $row->getCarousel()->getId(), 'itemId' => $row->getId()]);
-                })
-                ->setIcon('pencil');
+            $grid->addAction('editItem', 'Upravit', 'editItem', ['carouselId' => 'carousel.id', 'itemId' => 'id'])
+                ->setIcon('pencil')
+                ->setTitle('Upravit')
+                ->setClass('btn btn-xs btn-primary');
         }
 
         if ($this->presenter->isAllowed('carousel', 'delete')) {
-            $grid->addActionHref('delete', 'Smazat', 'delete!')
-                ->setCustomHref(function($row){
-                    return $this->link('delete!', $row->getId());
-                })
-                ->setIcon('trash-o')
-                ->setConfirm(function ($row) {
-                    return ['Opravdu chcete smazat carousel %s ?', $row->getIdentifier()];
-                });
-
-
-            $operations = ['delete' => 'Smazat'];
-            $grid->setOperation($operations, [$this, 'gridOperationsHandler'])
-                ->setConfirm('delete', 'Opravu chcete smazat %i carousel ?');
+            $grid->addAction('delete', '', 'delete!')
+                ->setIcon('trash')
+                ->setTitle('Smazat')
+                ->setClass('btn btn-xs btn-danger ajax')
+                ->setConfirm('Do you really want to delete row %s?', 'identifier');
+            $grid->addGroupAction('Smazat')->onSelect[] = [$this, 'handleDelete'];
         }
-        $grid->setExport();
+        $grid->addExportCsvFiltered('Csv export (filtered)', 'carousel_filtered.csv')
+            ->setTitle('Csv export (filtered)');
+        $grid->addExportCsv('Csv export', 'carousel_all.csv')
+            ->setTitle('Csv export');
 
         return $grid;
-    }
-
-    /**
-     * @param $action
-     * @param $ids
-     */
-    public function gridOperationsHandler($action, $ids)
-    {
-        switch ($action)
-        {
-            case 'delete':
-                $this->handleDelete($ids);
-                break;
-        }
     }
 
     /**
@@ -190,6 +171,24 @@ class ItemGrid extends BaseControl
         $this->entityManager->flush();
 
         $this->onDelete();
+    }
+
+    /**
+     * @param $id
+     */
+    public function handleUp($id)
+    {
+        $articleItem = $this->itemRepository->getOneById($id);
+        $this->itemRepository->moveUp($articleItem, 1);
+    }
+
+    /**
+     * @param $id
+     */
+    public function handleDown($id)
+    {
+        $articleItem = $this->itemRepository->getOneById($id);
+        $this->itemRepository->moveDown($articleItem, 1);
     }
 
     public function render()
