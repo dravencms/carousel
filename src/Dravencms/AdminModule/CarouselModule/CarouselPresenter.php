@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * To change this template, choose Tools | Templates
@@ -47,17 +47,13 @@ class CarouselPresenter extends SecuredPresenter
     /** @var null|Item */
     private $item = null;
 
-    /**
-     * @isAllowed(carousel,edit)
-     */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
     public function renderDefault()
     {
         $this->template->h1 = 'Carousels';
     }
 
-    /**
-     * @isAllowed(carousel,edit)
-     */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
     public function actionEdit($id)
     {
         if ($id) {
@@ -74,9 +70,9 @@ class CarouselPresenter extends SecuredPresenter
     }
 
     /**
-     * @isAllowed(carousel,edit)
      * @param $id
      */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
     public function actionItems($id)
     {
         $this->carousel = $this->carouselRepository->getOneById($id);
@@ -86,10 +82,10 @@ class CarouselPresenter extends SecuredPresenter
 
     /**
      * @param $carouselId
-     * @isAllowed(carousel,edit)
      * @param null $itemId
      * @throws \Nette\Application\BadRequestException
      */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
     public function actionEditItem($carouselId, $itemId = null)
     {
         $this->carousel = $this->carouselRepository->getOneById($carouselId);

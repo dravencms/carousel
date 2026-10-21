@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
@@ -29,7 +29,7 @@ use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
-use Kdyby\Doctrine\EntityManager;
+use Dravencms\Database\EntityManager;
 use Nette\Utils\Html;
 use Salamek\Files\ImagePipe;
 
@@ -145,7 +145,7 @@ class ItemGrid extends BaseControl
                 ->setIcon('trash')
                 ->setTitle('Smazat')
                 ->setClass('btn btn-xs btn-danger ajax')
-                ->setConfirm('Do you really want to delete row %s?', 'identifier');
+                ->setConfirmation(new \Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation('Do you really want to delete row %s?', 'identifier'));
             $grid->addGroupAction('Smazat')->onSelect[] = [$this, 'handleDelete'];
         }
         $grid->addExportCsvFiltered('Csv export (filtered)', 'carousel_filtered.csv')

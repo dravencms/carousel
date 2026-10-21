@@ -1,20 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 namespace Dravencms\Model\Carousel\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Sortable\Sortable;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Dravencms\Database\Attributes\TimestampableEntity;
+use Dravencms\Database\Attributes\Identifier;
 use Nette;
 
 /**
  * Class Carousel
  * @package App\Model\Carousel\Entities
- * @ORM\Entity
- * @ORM\Table(name="carouselCarousel")
  */
+#[ORM\Entity]
+#[ORM\Table(name: "carouselCarousel")]
 class Carousel
 {
     use Nette\SmartObject;
@@ -23,20 +23,20 @@ class Carousel
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255,nullable=false,unique=true)
      */
+    #[ORM\Column(type: "string",length: 255,nullable: false,unique: true)]
     private $identifier;
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=false)
      */
+    #[ORM\Column(type: "boolean", nullable: false)]
     private $isActive;
     
     /**
      * @var ArrayCollection|Item[]
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="carousel",cascade={"persist"})
      */
+    #[ORM\OneToMany(targetEntity: "Item", mappedBy: "carousel",cascade: ["persist"])]
     private $items;
 
     /**

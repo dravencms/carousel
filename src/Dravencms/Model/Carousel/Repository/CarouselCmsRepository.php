@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  */
@@ -9,10 +9,10 @@ use Dravencms\Locale\CurrentLocaleResolver;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Structure\Bridge\CmsLocale\Locale;
 use Nette;
-use Salamek\Cms\CmsActionOption;
-use Salamek\Cms\CmsActionOptionTranslation;
-use Salamek\Cms\ICmsActionOption;
-use Salamek\Cms\ICmsComponentRepository;
+use Dravencms\Structure\CmsActionOption;
+use Dravencms\Structure\CmsActionOptionTranslation;
+use Dravencms\Structure\ICmsActionOption;
+use Dravencms\Structure\ICmsComponentRepository;
 
 /**
  * Class CarouselRepository

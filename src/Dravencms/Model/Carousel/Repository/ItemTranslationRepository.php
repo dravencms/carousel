@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  */
@@ -8,7 +8,7 @@ namespace Dravencms\Model\Carousel\Repository;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
 use Dravencms\Model\Carousel\Entities\ItemTranslation;
-use Kdyby\Doctrine\EntityManager;
+use Dravencms\Database\EntityManager;
 use Nette;
 use Dravencms\Model\Locale\Entities\ILocale;
 
@@ -18,7 +18,7 @@ use Dravencms\Model\Locale\Entities\ILocale;
  */
 class ItemTranslationRepository
 {
-    /** @var \Kdyby\Doctrine\EntityRepository */
+    /** @var \Dravencms\Database\EntityRepository */
     private $itemTranslationRepository;
 
     /** @var EntityManager */
@@ -42,7 +42,7 @@ class ItemTranslationRepository
      * @return boolean
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isNameFree($name, ILocale $locale, Carousel $carousel, Item $itemIgnore = null)
+    public function isNameFree($name, ILocale $locale, Carousel $carousel, ?Item $itemIgnore = null)
     {
         $qb = $this->itemTranslationRepository->createQueryBuilder('it')
             ->select('it')

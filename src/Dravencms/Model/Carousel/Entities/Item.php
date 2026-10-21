@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Dravencms\Model\Carousel\Entities;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -6,16 +6,17 @@ use Dravencms\Model\File\Entities\StructureFile;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Dravencms\Database\Attributes\TimestampableEntity;
+use Dravencms\Database\Attributes\Identifier;
 use Nette;
 
 /**
  * Class Item
  * @package App\Model\Carousel\Entities
- * @ORM\Entity(repositoryClass="Gedmo\Sortable\Entity\Repository\SortableRepository")
- * @ORM\Table(name="carouselItem", uniqueConstraints={@UniqueConstraint(name="identifier_unique", columns={"identifier", "carousel_id"})})
  */
+#[ORM\Entity(repositoryClass: "Gedmo\Sortable\Entity\Repository\SortableRepository")]
+#[ORM\UniqueConstraint(name: "identifier_unique", columns: ["identifier", "carousel_id"])]
+#[ORM\Table(name: "carouselItem")]
 class Item
 {
     use Nette\SmartObject;
@@ -24,42 +25,42 @@ class Item
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255,nullable=false)
      */
+    #[ORM\Column(type: "string",length: 255,nullable: false)]
     private $identifier;
     
     /**
      * @var integer
-     * @Gedmo\SortablePosition
-     * @ORM\Column(type="integer")
      */
+    #[Gedmo\SortablePosition]
+    #[ORM\Column(type: "integer")]
     private $position;
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=false)
      */
+    #[ORM\Column(type: "boolean", nullable: false)]
     private $isActive;
 
     /**
      * @var StructureFile
-     * @ORM\ManyToOne(targetEntity="\Dravencms\Model\File\Entities\StructureFile")
-     * @ORM\JoinColumn(name="structure_file_id", referencedColumnName="id")
      */
+    #[ORM\ManyToOne(targetEntity: "\Dravencms\Model\File\Entities\StructureFile")]
+    #[ORM\JoinColumn(name: "structure_file_id", referencedColumnName: "id")]
     private $structureFile;
 
     /**
      * @var Carousel
-     * @Gedmo\SortableGroup
-     * @ORM\ManyToOne(targetEntity="Carousel", inversedBy="items")
-     * @ORM\JoinColumn(name="carousel_id", referencedColumnName="id")
      */
+    #[Gedmo\SortableGroup]
+    #[ORM\ManyToOne(targetEntity: "Carousel", inversedBy: "items")]
+    #[ORM\JoinColumn(name: "carousel_id", referencedColumnName: "id")]
     private $carousel;
 
     /**
      * @var ArrayCollection|ItemTranslation[]
-     * @ORM\OneToMany(targetEntity="ItemTranslation", mappedBy="item",cascade={"persist", "remove"})
      */
+    #[ORM\OneToMany(targetEntity: "ItemTranslation", mappedBy: "item",cascade: ["persist", "remove"])]
     private $translations;
 
     /**

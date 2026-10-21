@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  */
@@ -7,7 +7,7 @@ namespace Dravencms\Model\Carousel\Repository;
 
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
-use Kdyby\Doctrine\EntityManager;
+use Dravencms\Database\EntityManager;
 use Nette;
 
 /**
@@ -16,7 +16,7 @@ use Nette;
  */
 class ItemRepository
 {
-    /** @var \Kdyby\Doctrine\EntityRepository */
+    /** @var \Dravencms\Database\EntityRepository */
     private $itemRepository;
 
     /** @var EntityManager */
@@ -70,7 +70,7 @@ class ItemRepository
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isIdentifierFree($identifier, Carousel $carousel, Item $itemIgnore = null)
+    public function isIdentifierFree($identifier, Carousel $carousel, ?Item $itemIgnore = null)
     {
         $qb = $this->itemRepository->createQueryBuilder('i')
             ->select('i')

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  */
@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Dravencms\Model\User\Entities\AclOperation;
 use Dravencms\Model\User\Entities\AclResource;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 class AclOperationFixtures extends AbstractFixture implements DependentFixtureInterface
 {
@@ -18,7 +18,7 @@ class AclOperationFixtures extends AbstractFixture implements DependentFixtureIn
      *
      * @param ObjectManager $manager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $operations = [
             'carousel' => [
@@ -29,12 +29,12 @@ class AclOperationFixtures extends AbstractFixture implements DependentFixtureIn
         foreach ($operations AS $resourceName => $operationList)
         {
             /** @var AclResource $aclResource */
-            $aclResource = $this->getReference('user-acl-resource-'.$resourceName);
+            $aclResource = $this->getReference('user-acl-resource-'.$resourceName, AclResource::class);
             foreach ($operationList AS $operationName => $operationDescription)
             {
                 $aclOperation = new AclOperation($aclResource, $operationName, $operationDescription);
                 //Allow all operations to administrator group
-                $aclOperation->addGroup($this->getReference('user-group-administrator'));
+                $aclOperation->addGroup($this->getReference('user-group-administrator', \Dravencms\Model\User\Entities\Group::class));
                 $manager->persist($aclOperation);
                 $this->addReference('user-acl-operation-'.$resourceName.'-'.$operationName, $aclOperation);
             }
@@ -46,7 +46,7 @@ class AclOperationFixtures extends AbstractFixture implements DependentFixtureIn
      *
      * @return integer
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return ['Dravencms\Model\Carousel\Fixtures\AclResourceFixtures', 'Dravencms\Model\User\Fixtures\GroupFixtures'];
     }

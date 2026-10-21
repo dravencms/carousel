@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  *
@@ -30,7 +30,7 @@ use Dravencms\Model\Carousel\Repository\ItemTranslationRepository;
 use Dravencms\Model\File\Repository\StructureFileRepository;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
-use Kdyby\Doctrine\EntityManager;
+use Dravencms\Database\EntityManager;
 use Nette\Application\UI\Form;
 
 /**
@@ -91,7 +91,7 @@ class ItemForm extends BaseControl
         LocaleRepository $localeRepository,
         Carousel $carousel,
         File $file,
-        Item $item = null
+        ?Item $item = null
     ) {
         parent::__construct();
 

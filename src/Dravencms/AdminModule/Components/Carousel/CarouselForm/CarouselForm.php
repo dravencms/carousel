@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  *
@@ -24,7 +24,7 @@ use Dravencms\Components\BaseControl\BaseControl;
 use Dravencms\Components\BaseForm\BaseFormFactory;
 use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
-use Kdyby\Doctrine\EntityManager;
+use Dravencms\Database\EntityManager;
 use Nette\Application\UI\Form;
 
 /**
@@ -60,7 +60,7 @@ class CarouselForm extends BaseControl
         BaseFormFactory $baseFormFactory,
         EntityManager $entityManager,
         CarouselRepository $carouselRepository,
-        Carousel $carousel = null
+        ?Carousel $carousel = null
     ) {
         parent::__construct();
 

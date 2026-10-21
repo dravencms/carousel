@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Copyright (C) 2016 Adam Schubert <adam.schubert@sg1-game.net>.
  */
@@ -6,7 +6,7 @@
 namespace Dravencms\Model\Carousel\Repository;
 
 use Dravencms\Model\Carousel\Entities\Carousel;
-use Kdyby\Doctrine\EntityManager;
+use Dravencms\Database\EntityManager;
 use Nette;
 
 /**
@@ -15,7 +15,7 @@ use Nette;
  */
 class CarouselRepository
 {
-    /** @var \Kdyby\Doctrine\EntityRepository */
+    /** @var \Dravencms\Database\EntityRepository */
     private $carouselRepository;
 
     /** @var EntityManager */
@@ -83,7 +83,7 @@ class CarouselRepository
      * @return boolean
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function isIdentifierFree($identifier, Carousel $carouselIgnore = null)
+    public function isIdentifierFree($identifier, ?Carousel $carouselIgnore = null)
     {
         $qb = $this->carouselRepository->createQueryBuilder('c')
             ->select('c')

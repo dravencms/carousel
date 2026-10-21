@@ -15,12 +15,13 @@
     }
   ],
   "require": {
-    "dravencms/file": "^v1.0",
-    "dravencms/admin": "^v1.0",
-    "dravencms/structure": "^v1.0"
+    "dravencms/file": "^2.0",
+    "dravencms/admin": "^2.3.1",
+    "dravencms/structure": "^2.3",
+    "php": "^8.4"
   },
   "require-dev": {
-    "nette/tester": "@dev"
+    "nette/tester": "^2.6"
   },
   "autoload": {
     "psr-0": {
@@ -29,16 +30,7 @@
   },
   "extra": {
     "dravencms": {
-      "configuration": {
-        "extensions": {
-          "carousel": "Dravencms\\Carousel\\DI\\CarouselExtension"
-        },
-        "doctrine":{
-          "metadata": {
-            "Dravencms\\Model\\Carousel": "%appDir%/../vendor/dravencms/carousel/src/Dravencms/Model/Carousel"
-          }
-        }
-      }
+      "configuration": "dravencms.config.neon"
     }
   }
 }

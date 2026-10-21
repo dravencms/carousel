@@ -1,0 +1,16 @@
+extensions:
+    dravencms.carousel: Dravencms\Carousel\DI\CarouselExtension
+
+services:
+    carousel.carouselPresenter:
+        class: Dravencms\AdminModule\CarouselModule\CarouselPresenter
+
+nettrine.orm:
+    managers:
+        default:
+            mapping:
+                DravencmsCarousel:
+                    type: attributes
+                    directories:
+                        - %appDir%/../vendor/dravencms/carousel/src/Dravencms/Model/Carousel/Entities
+                    namespace: Dravencms\Model\Carousel

@@ -1,20 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 namespace Dravencms\Model\Carousel\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use Dravencms\Model\Locale\Entities\Locale;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Dravencms\Database\Attributes\TimestampableEntity;
+use Dravencms\Database\Attributes\Identifier;
 
 use Nette;
 
 /**
  * Class ItemTranslation
  * @package App\Model\Carousel\Entities
- * @ORM\Entity
- * @ORM\Table(name="carouselItemTranslation")
  */
+#[ORM\Entity]
+#[ORM\Table(name: "carouselItemTranslation")]
 class ItemTranslation
 {
     use Nette\SmartObject;
@@ -23,47 +23,47 @@ class ItemTranslation
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255,nullable=false)
      */
+    #[ORM\Column(type: "string",length: 255,nullable: false)]
     private $name;
 
     /**
      * @var string
-     * @ORM\Column(type="text",nullable=false)
      */
+    #[ORM\Column(type: "text",nullable: false)]
     private $description;
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255)
      */
+    #[ORM\Column(type: "string",length: 255)]
     private $url;
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255,nullable=true)
      */
+    #[ORM\Column(type: "string",length: 255,nullable: true)]
     private $buttonUrl;
 
     /**
      * @var string
-     * @ORM\Column(type="string",length=255,nullable=true)
      */
+    #[ORM\Column(type: "string",length: 255,nullable: true)]
     private $buttonText;
 
 
     /**
      * @var Item
-     * @ORM\ManyToOne(targetEntity="Item", inversedBy="translations")
-     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      */
+    #[ORM\ManyToOne(targetEntity: "Item", inversedBy: "translations")]
+    #[ORM\JoinColumn(name: "item_id", referencedColumnName: "id")]
     private $item;
     
     /**
      * @var Locale
-     * @ORM\ManyToOne(targetEntity="Dravencms\Model\Locale\Entities\Locale")
-     * @ORM\JoinColumn(name="locale_id", referencedColumnName="id")
      */
+    #[ORM\ManyToOne(targetEntity: "Dravencms\Model\Locale\Entities\Locale")]
+    #[ORM\JoinColumn(name: "locale_id", referencedColumnName: "id")]
     private $locale;
 
     /**

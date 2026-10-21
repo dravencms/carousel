@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Dravencms\FrontModule\Components\Carousel\Carousel\Detail;
 
@@ -7,7 +7,7 @@ use Dravencms\Locale\CurrentLocale;
 use Dravencms\Locale\CurrentLocaleResolver;
 use Dravencms\Model\Carousel\Repository\CarouselRepository;
 use Dravencms\Model\Carousel\Repository\ItemTranslationRepository;
-use Salamek\Cms\ICmsActionOption;
+use Dravencms\Structure\ICmsActionOption;
 
 /**
  * Class Detail
