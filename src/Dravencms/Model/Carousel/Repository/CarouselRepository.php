@@ -88,9 +88,7 @@ class CarouselRepository
         $qb = $this->carouselRepository->createQueryBuilder('c')
             ->select('c')
             ->where('c.identifier = :identifier')
-            ->setParameters([
-                'identifier' => $identifier
-            ]);
+            ->setParameter('identifier', $identifier);
 
         if ($carouselIgnore)
         {

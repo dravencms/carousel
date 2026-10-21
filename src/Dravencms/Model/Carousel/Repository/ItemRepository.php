@@ -76,10 +76,8 @@ class ItemRepository
             ->select('i')
             ->where('i.identifier = :identifier')
             ->andWhere('i.carousel = :carousel')
-            ->setParameters([
-                'identifier' => $identifier,
-                'carousel' => $carousel,
-            ]);
+            ->setParameter('identifier', $identifier)
+            ->setParameter('carousel', $carousel);
 
         if ($itemIgnore)
         {

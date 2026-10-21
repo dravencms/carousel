@@ -50,11 +50,9 @@ class ItemTranslationRepository
             ->where('it.name = :name')
             ->andWhere('i.carousel = :carousel')
             ->andWhere('it.locale = :locale')
-            ->setParameters([
-                'name' => $name,
-                'carousel' => $carousel,
-                'locale' => $locale
-            ]);
+            ->setParameter('name', $name)
+            ->setParameter('carousel', $carousel)
+            ->setParameter('locale', $locale);
 
         if ($itemIgnore)
         {
