@@ -118,8 +118,8 @@ class ItemForm extends BaseControl
             $container = $form->addContainer($activeLocale->getLanguageCode());
 
             $container->addText('name')
-                ->setRequired('Please enter carousel item name.')
-                ->addRule(Form::MAX_LENGTH, 'Carousel name is too long.', 255);
+                ->setRequired('carousel.admin.validation.itemNameRequired')
+                ->addRule(Form::MAX_LENGTH, 'carousel.admin.validation.itemNameTooLong', 255);
 
             $container->addTextArea('description');
 
@@ -130,18 +130,18 @@ class ItemForm extends BaseControl
         }
 
         $form->addText('identifier')
-            ->setRequired('Please fill in an identifier');
+            ->setRequired('carousel.admin.validation.identifierRequired');
 
         $form->addText('structureFile')
             ->setType('number')
-            ->setRequired('Please select the photo.');
+            ->setRequired('carousel.admin.validation.photoRequired');
 
         $form->addText('position')
             ->setDisabled(is_null($this->item));
 
         $form->addCheckbox('isActive');
 
-        $form->addSubmit('send');
+        $form->addSubmit('send', 'carousel.admin.action.save');
 
         $form->onValidate[] = [$this, 'editFormValidate'];
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
@@ -184,17 +184,17 @@ class ItemForm extends BaseControl
         $values = $form->getValues();
 
         if (!$this->itemRepository->isIdentifierFree($values->identifier, $this->carousel, $this->item)) {
-            $form->addError('Tento identifier je již zabrán.');
+            $form->addError('carousel.admin.validation.identifierTaken');
         }
         
         foreach ($this->localeRepository->getActive() AS $activeLocale) {
             if (!$this->itemTranslationRepository->isNameFree($values->{$activeLocale->getLanguageCode()}->name, $activeLocale, $this->carousel, $this->item)) {
-                $form->addError('Tento název je již zabrán.');
+                $form->addError('carousel.admin.validation.nameTaken');
             }
         }
 
-        if (!$this->presenter->isAllowed('carousel', 'edit')) {
-            $form->addError('Nemáte oprávění editovat carousel.');
+        if (!$this->getPresenter()->isAllowed('carousel', 'edit')) {
+            $form->addError('carousel.admin.validation.editForbidden');
         }
     }
 

@@ -1,0 +1,48 @@
+admin:
+	field:
+		identifier: Identifikátor
+		name: Název
+		url: Odkaz
+		buttonText: Text tlačítka
+		buttonUrl: Odkaz tlačítka
+		description: Popis
+		position: Pozice
+		active: Aktivní
+		updated: Poslední úprava
+
+	action:
+		save: Uložit
+		edit: Upravit
+		delete: Smazat
+		items: Položky
+		exportAll: Exportovat CSV
+		exportFiltered: 'Exportovat CSV (filtrováno)'
+
+	title:
+		carousels: Karusely
+		items: Položky karuselu
+		newCarousel: Nový karusel
+		editCarousel: Upravit karusel
+		newItem: Nová položka karuselu
+		editItem: Upravit položku karuselu
+
+	validation:
+		carouselIdentifierRequired: Zadejte identifikátor karuselu.
+		identifierTooLong: Identifikátor smí mít nejvýše %d znaků.
+		itemNameRequired: Zadejte název položky karuselu.
+		itemNameTooLong: Název položky smí mít nejvýše %d znaků.
+		identifierRequired: Zadejte identifikátor.
+		photoRequired: Vyberte obrázek.
+		identifierTaken: Tento identifikátor je již používán.
+		nameTaken: Tento název je již používán.
+		editForbidden: Nemáte oprávnění upravovat karusel.
+
+	confirm:
+		delete: Opravdu chcete smazat „%s“?
+
+	flash:
+		carouselSaved: Karusel byl uložen.
+		carouselDeleted: Karusel byl smazán.
+		itemSaved: Položka karuselu byla uložena.
+		itemDeleted: Položka karuselu byla smazána.
+

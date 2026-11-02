@@ -50,14 +50,14 @@ class CarouselPresenter extends SecuredPresenter
     #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
     public function renderDefault()
     {
-        $this->template->h1 = 'Carousels';
+        $this->template->h1 = $this->translator->translate('carousel.admin.title.carousels');
     }
 
     #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
     public function actionEdit($id)
     {
         if ($id) {
-            $this->template->h1 = 'Edit carousel';
+            $this->template->h1 = $this->translator->translate('carousel.admin.title.editCarousel');
             $carousel = $this->carouselRepository->getOneById($id);
             if (!$carousel) {
                 $this->error();
@@ -65,7 +65,7 @@ class CarouselPresenter extends SecuredPresenter
 
             $this->carousel = $carousel;
         } else {
-            $this->template->h1 = 'New carousel';
+            $this->template->h1 = $this->translator->translate('carousel.admin.title.newCarousel');
         }
     }
 
@@ -77,7 +77,7 @@ class CarouselPresenter extends SecuredPresenter
     {
         $this->carousel = $this->carouselRepository->getOneById($id);
         $this->template->carousel = $this->carousel;
-        $this->template->h1 = 'Carousel items';
+        $this->template->h1 = $this->translator->translate('carousel.admin.title.items');
     }
 
     /**
@@ -97,11 +97,11 @@ class CarouselPresenter extends SecuredPresenter
             }
 
             $this->item = $item;
-            $this->template->h1 = 'Edit carousel item';
+            $this->template->h1 = $this->translator->translate('carousel.admin.title.editItem');
         }
         else
         {
-            $this->template->h1 = 'New carousel item';
+            $this->template->h1 = $this->translator->translate('carousel.admin.title.newItem');
         }
     }
 
@@ -113,7 +113,7 @@ class CarouselPresenter extends SecuredPresenter
         $control = $this->carouselFormFactory->create($this->carousel);
         $control->onSuccess[] = function()
         {
-            $this->flashMessage('Carousel has been successfully saved', 'alert-success');
+            $this->flashMessage($this->translator->translate('carousel.admin.flash.carouselSaved'), 'alert-success');
             $this->redirect('Carousel:');
         };
         return $control;
@@ -127,7 +127,7 @@ class CarouselPresenter extends SecuredPresenter
         $control = $this->itemFormFactory->create($this->carousel, $this->item);
         $control->onSuccess[] = function($item)
         {
-            $this->flashMessage('Carousel item has been successfully saved', 'alert-success');
+            $this->flashMessage($this->translator->translate('carousel.admin.flash.itemSaved'), 'alert-success');
             $this->redirect('Carousel:items', $item->getCarousel()->getId());
         };
         return $control;
@@ -141,7 +141,7 @@ class CarouselPresenter extends SecuredPresenter
         $control = $this->carouselGridFactory->create();
         $control->onDelete[] = function()
         {
-            $this->flashMessage('Carousel has been successfully deleted', 'alert-success');
+            $this->flashMessage($this->translator->translate('carousel.admin.flash.carouselDeleted'), 'alert-success');
             $this->redirect('Carousel:');
         };
         return $control;
@@ -155,7 +155,7 @@ class CarouselPresenter extends SecuredPresenter
         $control = $this->itemGridFactory->create($this->carousel);
         $control->onDelete[] = function()
         {
-            $this->flashMessage('Carousel item has been successfully deleted', 'alert-success');
+            $this->flashMessage($this->translator->translate('carousel.admin.flash.itemDeleted'), 'alert-success');
             $this->redirect('Carousel:items', $this->carousel->getId());
         };
         return $control;

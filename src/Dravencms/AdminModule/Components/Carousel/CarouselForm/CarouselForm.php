@@ -79,13 +79,13 @@ class CarouselForm extends BaseControl
         $form = $this->baseFormFactory->create();
 
         $form->addText('identifier')
-            ->setRequired('Please enter carousel identifier.')
-            ->addRule(Form::MAX_LENGTH, 'Carousel identifier is too long.', 255);
+            ->setRequired('carousel.admin.validation.carouselIdentifierRequired')
+            ->addRule(Form::MAX_LENGTH, 'carousel.admin.validation.identifierTooLong', 255);
 
         $form->addCheckbox('isActive');
 
 
-        $form->addSubmit('send');
+        $form->addSubmit('send', 'carousel.admin.action.save');
 
         $form->onValidate[] = [$this, 'editFormValidate'];
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
@@ -114,11 +114,11 @@ class CarouselForm extends BaseControl
     {
         $values = $form->getValues();
         if (!$this->carouselRepository->isIdentifierFree($values->identifier, $this->carousel)) {
-            $form->addError('Tento identifier je již zabrán.');
+            $form->addError('carousel.admin.validation.identifierTaken');
         }
 
-        if (!$this->presenter->isAllowed('carousel', 'edit')) {
-            $form->addError('Nemáte oprávění editovat carousel.');
+        if (!$this->getPresenter()->isAllowed('carousel', 'edit')) {
+            $form->addError('carousel.admin.validation.editForbidden');
         }
     }
 

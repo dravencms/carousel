@@ -1,6 +1,6 @@
 {block #content}
     <p n:if="isAllowed('carousel', 'edit')">
-        <a n:href="Carousel:editItem, 'carouselId'=> $carousel->getId()" class="btn btn-primary"><i class="fa fa-plus"></i> {_"New carousel item"}</a>
+        <a n:href="Carousel:editItem, 'carouselId'=> $carousel->getId()" class="btn btn-primary"><i class="fa fa-plus"></i> {_"carousel.admin.title.newItem"}</a>
     </p>
     {control gridItem}
 {/block}

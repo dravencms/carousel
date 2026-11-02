@@ -1,0 +1,48 @@
+admin:
+	field:
+		identifier: Identifier
+		name: Name
+		url: URL
+		buttonText: Button text
+		buttonUrl: Button URL
+		description: Description
+		position: Position
+		active: Active
+		updated: Last edit
+
+	action:
+		save: Save
+		edit: Edit
+		delete: Delete
+		items: Items
+		exportAll: CSV export
+		exportFiltered: 'CSV export (filtered)'
+
+	title:
+		carousels: Carousels
+		items: Carousel items
+		newCarousel: New carousel
+		editCarousel: Edit carousel
+		newItem: New carousel item
+		editItem: Edit carousel item
+
+	validation:
+		carouselIdentifierRequired: Please enter a carousel identifier.
+		identifierTooLong: The identifier must contain at most %d characters.
+		itemNameRequired: Please enter a carousel item name.
+		itemNameTooLong: The item name must contain at most %d characters.
+		identifierRequired: Please enter an identifier.
+		photoRequired: Please select an image.
+		identifierTaken: This identifier is already in use.
+		nameTaken: This name is already in use.
+		editForbidden: You do not have permission to edit this carousel.
+
+	confirm:
+		delete: Are you sure you want to delete "%s"?
+
+	flash:
+		carouselSaved: The carousel has been saved.
+		carouselDeleted: The carousel has been deleted.
+		itemSaved: The carousel item has been saved.
+		itemDeleted: The carousel item has been deleted.
+

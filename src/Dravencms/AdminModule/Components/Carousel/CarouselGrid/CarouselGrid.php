@@ -87,45 +87,45 @@ class CarouselGrid extends BaseControl
 
         $grid->setDataSource($this->carouselRepository->getCarouselQueryBuilder());
 
-        $grid->addColumnText('identifier', 'Identifier')
+        $grid->addColumnText('identifier', 'carousel.admin.field.identifier')
             ->setSortable()
             ->setFilterText();
 
-        $grid->addColumnDateTime('updatedAt', 'Last edit')
+        $grid->addColumnDateTime('updatedAt', 'carousel.admin.field.updated')
             ->setFormat($this->currentLocale->getDateTimeFormat())
             ->setAlign('center')
             ->setSortable()
             ->setFilterDate();
 
-        $grid->addColumnBoolean('isActive', 'Active');
+        $grid->addColumnBoolean('isActive', 'carousel.admin.field.active');
 
 
-        if ($this->presenter->isAllowed('carousel', 'edit')) {
+        if ($this->getPresenter()->isAllowed('carousel', 'edit')) {
 
             $grid->addAction('items', '')
                 ->setIcon('folder-open')
-                ->setTitle('Items')
+                ->setTitle('carousel.admin.action.items')
                 ->setClass('btn btn-sm btn-primary');
 
 
             $grid->addAction('edit', '')
                 ->setIcon('pencil')
-                ->setTitle('Upravit')
+                ->setTitle('carousel.admin.action.edit')
                 ->setClass('btn btn-sm btn-primary');
         }
 
-        if ($this->presenter->isAllowed('carousel', 'delete')) {
+        if ($this->getPresenter()->isAllowed('carousel', 'delete')) {
             $grid->addAction('delete', '', 'delete!')
                 ->setIcon('trash')
-                ->setTitle('Smazat')
+                ->setTitle('carousel.admin.action.delete')
                 ->setClass('btn btn-sm btn-danger ajax')
-                ->setConfirmation(new \Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation('Do you really want to delete row %s?', 'identifier'));
-            $grid->addGroupAction('Smazat')->onSelect[] = [$this, 'handleDelete'];
+                ->setConfirmation(new \Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation('carousel.admin.confirm.delete', 'identifier'));
+            $grid->addGroupAction('carousel.admin.action.delete')->onSelect[] = [$this, 'handleDelete'];
         }
-        $grid->addExportCsvFiltered('Csv export (filtered)', 'carousel_filtered.csv')
-            ->setTitle('Csv export (filtered)');
-        $grid->addExportCsv('Csv export', 'carousel_all.csv')
-            ->setTitle('Csv export');
+        $grid->addExportCsvFiltered('carousel.admin.action.exportFiltered', 'carousel_filtered.csv')
+            ->setTitle('carousel.admin.action.exportFiltered');
+        $grid->addExportCsv('carousel.admin.action.exportAll', 'carousel_all.csv')
+            ->setTitle('carousel.admin.action.exportAll');
 
         return $grid;
     }

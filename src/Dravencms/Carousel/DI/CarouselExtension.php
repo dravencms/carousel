@@ -2,6 +2,7 @@
 
 namespace Dravencms\Carousel\DI;
 
+use Contributte\Translation\DI\TranslationProviderInterface;
 use Dravencms\Carousel\Carousel;
 
 use Nette\DI\CompilerExtension;
@@ -10,8 +11,12 @@ use Dravencms\Structure\DI\StructureExtension;
  * Class CarouselExtension
  * @package Dravencms\Carousel\DI
  */
-class CarouselExtension extends CompilerExtension
+class CarouselExtension extends CompilerExtension implements TranslationProviderInterface
 {
+    public function getTranslationResources(): array
+    {
+        return [__DIR__ . '/../lang'];
+    }
 
     public function loadConfiguration(): void
     {
