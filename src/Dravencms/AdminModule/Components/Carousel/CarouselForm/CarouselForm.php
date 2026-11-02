@@ -69,21 +69,6 @@ class CarouselForm extends BaseControl
         $this->baseFormFactory = $baseFormFactory;
         $this->entityManager = $entityManager;
         $this->carouselRepository = $carouselRepository;
-
-
-        if ($this->carousel) {
-            $defaults = [
-                'identifier' => $this->carousel->getIdentifier(),
-                'isActive' => $this->carousel->isActive()
-            ];
-        }
-        else{
-            $defaults = [
-                'isActive' => true
-            ];
-        }
-
-        $this['form']->setDefaults($defaults);
     }
 
     /**
@@ -104,6 +89,20 @@ class CarouselForm extends BaseControl
 
         $form->onValidate[] = [$this, 'editFormValidate'];
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
+
+        if ($this->carousel) {
+            $defaults = [
+                'identifier' => $this->carousel->getIdentifier(),
+                'isActive' => $this->carousel->isActive()
+            ];
+        }
+        else{
+            $defaults = [
+                'isActive' => true
+            ];
+        }
+
+        $form->setDefaults($defaults);
 
         return $form;
     }

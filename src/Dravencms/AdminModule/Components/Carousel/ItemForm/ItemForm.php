@@ -105,33 +105,6 @@ class ItemForm extends BaseControl
         $this->structureFileRepository = $structureFileRepository;
         $this->localeRepository = $localeRepository;
         $this->file = $file;
-
-        if ($this->item) {
-            
-            $defaults = [
-                'identifier' => $this->item->getIdentifier(),
-                'position' => $this->item->getPosition(),
-                'isActive' => $this->item->isActive(),
-                'structureFile' => ($this->item->getStructureFile() ? $this->item->getStructureFile()->getId() : null),
-            ];
-
-            foreach ($this->item->getTranslations() AS $translation)
-            {
-                $defaults[$translation->getLocale()->getLanguageCode()]['name'] = $translation->getName();
-                $defaults[$translation->getLocale()->getLanguageCode()]['description'] = $translation->getDescription();
-                $defaults[$translation->getLocale()->getLanguageCode()]['buttonUrl'] = $translation->getButtonUrl();
-                $defaults[$translation->getLocale()->getLanguageCode()]['buttonText'] = $translation->getButtonText();
-                $defaults[$translation->getLocale()->getLanguageCode()]['url'] = $translation->getUrl();
-            }
-
-        }
-        else{
-            $defaults = [
-                'isActive' => true
-            ];
-        }
-
-        $this['form']->setDefaults($defaults);
     }
 
     /**
@@ -172,6 +145,33 @@ class ItemForm extends BaseControl
 
         $form->onValidate[] = [$this, 'editFormValidate'];
         $form->onSuccess[] = [$this, 'editFormSucceeded'];
+
+        if ($this->item) {
+
+            $defaults = [
+                'identifier' => $this->item->getIdentifier(),
+                'position' => $this->item->getPosition(),
+                'isActive' => $this->item->isActive(),
+                'structureFile' => ($this->item->getStructureFile() ? $this->item->getStructureFile()->getId() : null),
+            ];
+
+            foreach ($this->item->getTranslations() AS $translation)
+            {
+                $defaults[$translation->getLocale()->getLanguageCode()]['name'] = $translation->getName();
+                $defaults[$translation->getLocale()->getLanguageCode()]['description'] = $translation->getDescription();
+                $defaults[$translation->getLocale()->getLanguageCode()]['buttonUrl'] = $translation->getButtonUrl();
+                $defaults[$translation->getLocale()->getLanguageCode()]['buttonText'] = $translation->getButtonText();
+                $defaults[$translation->getLocale()->getLanguageCode()]['url'] = $translation->getUrl();
+            }
+
+        }
+        else{
+            $defaults = [
+                'isActive' => true
+            ];
+        }
+
+        $form->setDefaults($defaults);
 
         return $form;
     }
