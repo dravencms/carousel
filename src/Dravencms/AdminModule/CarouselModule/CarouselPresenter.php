@@ -21,6 +21,7 @@ use Dravencms\Model\Carousel\Repository\ItemRepository;
  *
  * @author sadam
  */
+#[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
 class CarouselPresenter extends SecuredPresenter
 {
     /** @var CarouselRepository @inject */

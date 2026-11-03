@@ -204,6 +204,7 @@ class ItemForm extends BaseControl
      */
     public function editFormSucceeded(Form $form)
     {
+        $this->requirePermission('carousel', 'edit');
         $values = $form->getValues();
 
         $structureFile = $this->structureFileRepository->getOneById($values->structureFile);

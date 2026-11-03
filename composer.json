@@ -18,7 +18,8 @@
     "dravencms/file": "^2.0",
     "dravencms/admin": "^3.0",
     "dravencms/structure": "^2.3",
-    "php": "^8.4"
+    "php": "^8.4",
+    "dravencms/application": "^0.3"
   },
   "require-dev": {
     "nette/tester": "^2.6"
@@ -34,6 +35,7 @@
     }
   },
   "conflict": {
-    "dravencms/user": "<3.0"
+    "dravencms/user": "<3.1",
+    "dravencms/admin": "<3.2"
   }
 }

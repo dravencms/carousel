@@ -99,6 +99,7 @@ class ItemGrid extends BaseControl
     public function createComponentGrid($name)
     {
         $grid = $this->baseGridFactory->create($this, $name);
+        $grid->setWritePermission('carousel', 'edit');
 
         $grid->setDataSource($this->itemRepository->getItemQueryBuilder($this->carousel));
 
@@ -160,8 +161,11 @@ class ItemGrid extends BaseControl
      * @param $id
      * @throws \Exception
      */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'delete')]
+    #[\Dravencms\Security\Mutation]
     public function handleDelete($id)
     {
+        $this->requirePermission('carousel', 'delete');
         $items = $this->itemRepository->getById($id);
         foreach ($items AS $item)
         {
@@ -176,8 +180,11 @@ class ItemGrid extends BaseControl
     /**
      * @param $id
      */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
+    #[\Dravencms\Security\Mutation]
     public function handleUp($id)
     {
+        $this->requirePermission('carousel', 'edit');
         $articleItem = $this->itemRepository->getOneById($id);
         $this->itemRepository->moveUp($articleItem, 1);
     }
@@ -185,8 +192,11 @@ class ItemGrid extends BaseControl
     /**
      * @param $id
      */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'edit')]
+    #[\Dravencms\Security\Mutation]
     public function handleDown($id)
     {
+        $this->requirePermission('carousel', 'edit');
         $articleItem = $this->itemRepository->getOneById($id);
         $this->itemRepository->moveDown($articleItem, 1);
     }

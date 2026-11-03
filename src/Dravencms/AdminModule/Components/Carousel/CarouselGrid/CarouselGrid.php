@@ -84,6 +84,7 @@ class CarouselGrid extends BaseControl
     public function createComponentGrid($name)
     {
         $grid = $this->baseGridFactory->create($this, $name);
+        $grid->setWritePermission('carousel', 'edit');
 
         $grid->setDataSource($this->carouselRepository->getCarouselQueryBuilder());
 
@@ -148,8 +149,11 @@ class CarouselGrid extends BaseControl
      * @param $id
      * @throws \Exception
      */
+    #[\Dravencms\User\Attributes\IsAllowed('carousel', 'delete')]
+    #[\Dravencms\Security\Mutation]
     public function handleDelete($id)
     {
+        $this->requirePermission('carousel', 'delete');
         $carousels = $this->carouselRepository->getById($id);
         foreach ($carousels AS $carousel)
         {
