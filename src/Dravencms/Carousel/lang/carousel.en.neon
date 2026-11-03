@@ -49,3 +49,11 @@ admin:
 
 menu:
     overview: 'Carousels'
+
+acl:
+    resource: 'Carousels'
+    permissions:
+        edit:
+            label: 'Manage carousels'
+        delete:
+            label: 'Delete carousels'

@@ -49,3 +49,11 @@ admin:
 
 menu:
     overview: 'Karusely'
+
+acl:
+    resource: 'Karusely'
+    permissions:
+        edit:
+            label: 'Spravovat karusely'
+        delete:
+            label: 'Mazat karusely'
