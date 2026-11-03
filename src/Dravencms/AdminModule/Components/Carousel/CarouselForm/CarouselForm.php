@@ -128,7 +128,6 @@ class CarouselForm extends BaseControl
      */
     public function editFormSucceeded(Form $form)
     {
-        $this->requirePermission('carousel', 'edit');
         $values = $form->getValues();
 
 
