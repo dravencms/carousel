@@ -46,3 +46,6 @@ admin:
 		itemSaved: Položka karuselu byla uložena.
 		itemDeleted: Položka karuselu byla smazána.
 
+
+menu:
+    overview: 'Karusely'

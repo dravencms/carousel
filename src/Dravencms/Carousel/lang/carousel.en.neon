@@ -46,3 +46,6 @@ admin:
 		itemSaved: The carousel item has been saved.
 		itemDeleted: The carousel item has been deleted.
 
+
+menu:
+    overview: 'Carousels'
