@@ -1,7 +1,7 @@
 <div n:if="$carousel" id="$carousel->getIdentifier()|webalize" class="slider flexslider">
     <ul class="slides">
         <li n:foreach="$translatedItems as $translatedItem">
-            <img n:img="$translatedItem->getItem()->getStructureFile()->getFile(), '1140x350', 'exact'"  alt="{$translatedItem->getName()}" />
+            <img n:img="\Salamek\Files\Access\FileReference::attachment('carousel.item', $translatedItem->getItem()->getId(), $translatedItem->getItem()->getStructureFile()), '1140x350', 'exact'"  alt="{$translatedItem->getName()}" />
             <p class="flex-caption">
                 <span class="main" n:if="$translatedItem->getName()">{$translatedItem->getName()}</span>
                 <br />

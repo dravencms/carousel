@@ -21,6 +21,7 @@ class CarouselExtension extends CompilerExtension implements TranslationProvider
     public function loadConfiguration(): void
     {
         $builder = $this->getContainerBuilder();
+        $builder->addDefinition($this->prefix('files.ItemFileProvider'))->setFactory(\Dravencms\Carousel\Access\ItemFileProvider::class);
         if ($this->compiler->getExtensions(\Dravencms\User\DI\UserExtension::class) !== []) {
             $builder->addDefinition($this->prefix('aclProvider'))->setFactory(\Dravencms\Carousel\AclProvider::class);
         }
