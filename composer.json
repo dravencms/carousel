@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "dravencms/file": "^3.0",
+    "dravencms/file": "^3.1",
     "dravencms/admin": "^3.0",
     "dravencms/structure": "^2.3",
     "php": "^8.4",

@@ -14,3 +14,10 @@ nettrine.orm:
                     directories:
                         - %appDir%/../vendor/dravencms/carousel/src/Dravencms/Model/Carousel/Entities
                     namespace: Dravencms\Model\Carousel
+
+files:
+    variants:
+        carousel:
+            width: 1140
+            height: 350
+            resizeMode: exact
