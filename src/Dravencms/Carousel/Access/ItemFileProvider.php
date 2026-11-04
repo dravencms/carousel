@@ -2,11 +2,11 @@
 namespace Dravencms\Carousel\Access;
 use Salamek\Files\Access\{IFileAccessProvider, FileAccess};
 use Dravencms\Model\Carousel\Repository\ItemRepository;
-use Nette\Security\User;
+use Dravencms\File\Access\AdminFileAccess;
 
 final class ItemFileProvider implements IFileAccessProvider
 {
-    public function __construct(private ItemRepository $repository, private User $user) {}
+    public function __construct(private ItemRepository $repository, private AdminFileAccess $user) {}
     public static function getId(): string { return 'carousel.item'; }
     public function resolve(string $reference): ?FileAccess
     {
