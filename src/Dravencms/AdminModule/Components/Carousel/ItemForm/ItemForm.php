@@ -27,7 +27,6 @@ use Dravencms\Model\Carousel\Entities\Carousel;
 use Dravencms\Model\Carousel\Entities\Item;
 use Dravencms\Model\Carousel\Entities\ItemTranslation;
 use Dravencms\Model\Carousel\Repository\ItemTranslationRepository;
-use Dravencms\Model\File\Repository\StructureFileRepository;
 use Dravencms\Model\Carousel\Repository\ItemRepository;
 use Dravencms\Model\Locale\Repository\LocaleRepository;
 use Dravencms\Database\EntityManager;
@@ -49,9 +48,6 @@ class ItemForm extends BaseControl
     /** @var ItemRepository */
     private $itemRepository;
     
-    /** @var StructureFileRepository */
-    private $structureFileRepository;
-
     /** @var LocaleRepository */
     private $localeRepository;
 
@@ -76,7 +72,6 @@ class ItemForm extends BaseControl
      * @param EntityManager $entityManager
      * @param ItemRepository $itemRepository
      * @param ItemTranslationRepository $itemTranslationRepository
-     * @param StructureFileRepository $structureFileRepository
      * @param LocaleRepository $localeRepository
      * @param Carousel $carousel
      * @param File $file
@@ -87,7 +82,6 @@ class ItemForm extends BaseControl
         EntityManager $entityManager,
         ItemRepository $itemRepository,
         ItemTranslationRepository $itemTranslationRepository,
-        StructureFileRepository $structureFileRepository,
         LocaleRepository $localeRepository,
         Carousel $carousel,
         File $file,
@@ -102,7 +96,6 @@ class ItemForm extends BaseControl
         $this->entityManager = $entityManager;
         $this->itemRepository = $itemRepository;
         $this->itemTranslationRepository = $itemTranslationRepository;
-        $this->structureFileRepository = $structureFileRepository;
         $this->localeRepository = $localeRepository;
         $this->file = $file;
     }
@@ -132,9 +125,7 @@ class ItemForm extends BaseControl
         $form->addText('identifier')
             ->setRequired('carousel.admin.validation.identifierRequired');
 
-        $form->addText('structureFile')
-            ->setType('number')
-            ->setRequired('carousel.admin.validation.photoRequired');
+        $this->file->addSelector($form, 'structureFile', 'file.selectImage', \Salamek\Files\Models\IFile::TYPE_IMAGE, false)->setRequired('carousel.admin.validation.photoRequired')->setExistingFile($this->item?->getStructureFile());
 
         $form->addText('position')
             ->setDisabled(is_null($this->item));
@@ -206,7 +197,7 @@ class ItemForm extends BaseControl
     {
         $values = $form->getValues();
 
-        $structureFile = $this->structureFileRepository->getOneById($values->structureFile);
+        $structureFile = $values->structureFile->file;
         if ($this->item) {
             $item = $this->item;
             $item->setIdentifier($values->identifier);
@@ -253,7 +244,7 @@ class ItemForm extends BaseControl
     public function render()
     {
         $template = $this->template;
-        $template->fileSelectorPath = $this->file->getFileSelectorPath();
+
         $template->activeLocales = $this->localeRepository->getActive();
         $template->setFile(__DIR__ . '/ItemForm.latte');
         $template->render();
